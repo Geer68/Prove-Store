@@ -88,5 +88,3 @@ export async function getStockTalle(talle: string, id: number): Promise<Stock> {
         throw err;
       });
   }
-  
-
