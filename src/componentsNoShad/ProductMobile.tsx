@@ -19,18 +19,24 @@ export function ProductMobile(product: Articulos | null | undefined, routeParams
                         <p>Talle</p>
                         <p className="font-bold text-purple-700">{stock?.talle}</p>
                         <section className="flex gap-1">
-                            <p>{stock?.stock}</p>
-                            <p>disponibles</p>
+                            {stock?.stock > 0 ? (
+                                <>
+                                    <p className="text-gray-400">{stock?.stock}</p>
+                                    <p className="text-gray-400">disponibles</p>
+                                </>
+                            ) : (
+                                <p className="text-gray-400">(Seleccione talle)</p>
+                            )}
                         </section>
                     </div>
                     <section className="grid gap-3 justify-start">
                         <div className="flex gap-2 bg-gray-100 p-2 rounded-lg">
                             {/* hacer componente */}
-                            <button onClick={() => handleTalleClick('S')} className={`rounded ${stock.talle === 'S' ? 'bg-white' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>S</button>
-                            <button onClick={() => handleTalleClick('M')} className={`rounded ${stock.talle === 'M' ? 'bg-white' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>M</button>
-                            <button onClick={() => handleTalleClick('L')} className={`rounded ${stock.talle === 'L' ? 'bg-white' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>L</button>
-                            <button onClick={() => handleTalleClick('XL')} className={`rounded ${stock.talle === 'XL' ? 'bg-white' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>XL</button>
-                            <button onClick={() => handleTalleClick('XXL')} className={`rounded ${stock.talle === 'XXL' ? 'bg-white' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>XXL</button>
+                            <button onClick={() => handleTalleClick('S')} className={`rounded ${stock.talle === 'S' ? 'bg-white text-violet-500 font-bold' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>S</button>
+                            <button onClick={() => handleTalleClick('M')} className={`rounded ${stock.talle === 'M' ? 'bg-white text-violet-500 font-bold' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>M</button>
+                            <button onClick={() => handleTalleClick('L')} className={`rounded ${stock.talle === 'L' ? 'bg-white text-violet-500 font-bold' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>L</button>
+                            <button onClick={() => handleTalleClick('XL')} className={`rounded ${stock.talle === 'XL' ? 'bg-white text-violet-500 font-bold' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>XL</button>
+                            <button onClick={() => handleTalleClick('XXL')} className={`rounded ${stock.talle === 'XXL' ? 'bg-white text-violet-500 font-bold' : 'none'} pl-3 pr-3 p-1 hover-bg-white focus-bg-white`}>XXL</button>
                         </div>
                         <button className="text-left">Guía de talles</button>
                     </section>

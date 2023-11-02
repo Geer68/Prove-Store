@@ -44,7 +44,6 @@ export function Product({ routeParams }: { routeParams: { query: string } }) {
     }
   }
   const handleCartClick = (producto: Articulos | null | undefined) => {
-    console.log(producto)
     if (producto && stock.talle && stock.stock > 0) {
       const itemToAdd: ArticleOnCart = {
         item: producto,
