@@ -13,7 +13,6 @@ export function HomePage() {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
-    console.log(import.meta.env); 
     const fetchData = async () => {
       try {
         const fetchedArticles = await getarticles();
