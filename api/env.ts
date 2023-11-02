@@ -1,5 +1,3 @@
-export const apiKey: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVuZm56cnJ5dWp5bWZsZWRreWJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwODE5MjUsImV4cCI6MjAxMDY1NzkyNX0.iBxVkKrW9QA_8aCN8nU8Irygi2sOnIYgVeCFm-nLhJA'
-
 
 export const urls = {
     getArticulos: 'https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?select=*',
