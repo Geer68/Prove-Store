@@ -19,6 +19,9 @@ module.exports = {
       fontFamily: {
         tinos: ['Tinos', 'serif'],
       },
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
