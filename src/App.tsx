@@ -1,8 +1,8 @@
 import React from "react";
 import { HomePage } from "./pages/HomePage";
 import { Product } from "./pages/Product";
-import { Router } from "../src/componentsNoShad/Router";
 import { Cart } from "./pages/Cart";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 type Route = {
   path: string;
@@ -27,7 +27,17 @@ const routes: Route[] = [
 function App() {
   return (
     <main>
-      <Router routes={routes} />
+      <BrowserRouter>
+        <Routes>
+          {routes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<route.Component />}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 }

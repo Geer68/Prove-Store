@@ -42,7 +42,7 @@ export function completeUrlProduct(url: string): string  {
     const completedUrl =`https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?url=eq.${url}&select=*`
     return completedUrl;
 }
-export async function getProductUrl(url: string): Promise<Articulos>  {
+export async function getProductUrl(url: string | undefined): Promise<Articulos>  {
     const modUrl = completeUrlProduct(url);
     return fetch(modUrl, {
         headers: {

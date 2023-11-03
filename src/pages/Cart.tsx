@@ -1,12 +1,9 @@
-import { NavigationMenuNoShad } from "../componentsNoShad/NavigarionMenuNoShad";
-import { NavigationMenuMobile } from "@/componentsNoShad/NavigationMenuMobile";
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from "@/componentsNoShad/context";
 import { Button } from "@/components/ui/button";
 import { CartProduct } from "@/componentsNoShad/CartProduct";
 
 export function Cart() {
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const cartContext = useContext(CartContext);
   if (cartContext === null) {
@@ -17,24 +14,10 @@ export function Cart() {
 
   useEffect(() => {
     setTotalPrice(totalArticlePrice());
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, [cart]);
 
   return (
     <div>
-      <nav>
-        {windowWidth < 576 ? (
-          <NavigationMenuMobile></NavigationMenuMobile>
-        ) : (
-          <NavigationMenuNoShad></NavigationMenuNoShad>
-        )}
-      </nav>
       <div className="flex justify-between p-10">
         <aside className="rounded-lg border-2 border-gray-100 ">
           <header className=" border-b-2 border-gray-100 p-5">
