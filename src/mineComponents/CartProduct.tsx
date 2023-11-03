@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { useContext } from "react"
-import { ArticleOnCart } from "api/env";
+import { ArticleOnCart } from "logic/types";
 import { CartContext } from "./context";
 export function CartProduct({product}: {product: ArticleOnCart}): JSX.Element {
     const cartContext = useContext(CartContext);

@@ -3,9 +3,8 @@ import { HomePage } from "./pages/HomePage";
 import { Product } from "./pages/Product";
 import { Cart } from "./pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { NavigationBar } from "./mineComponents/NavigationBar";
 import { Toaster } from "react-hot-toast";
-import { Example } from "./pages/Prueba";
+import { NavigationBar } from "./mineComponents/NavigationBar";
 
 type Route = {
   path: string;
@@ -27,7 +26,7 @@ const routes: Route[] = [
   },
   {
     path: "/prueba",
-    Component: Example,
+    Component: NavigationBar,
   }
 ];
 
@@ -37,7 +36,7 @@ function App() {
     <main>
       <BrowserRouter> 
       <Toaster/>
-      <Example/>
+      <NavigationBar/>
         <Routes>
           {routes.map((route) => (
             <Route

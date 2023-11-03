@@ -1,4 +1,4 @@
-import { Articulos, Stock } from "api/env";
+import { Articulos, Stock } from "logic/types";
 import { Button } from "@/components/ui/button";
 
 

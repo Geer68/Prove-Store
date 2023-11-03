@@ -1,4 +1,4 @@
-import { ArticleOnCart } from "api/env";
+import { ArticleOnCart } from "logic/types";
 import { createContext, useState } from "react";
 
 export const CartContext = createContext({

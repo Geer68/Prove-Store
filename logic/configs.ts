@@ -37,7 +37,7 @@ export const EVENTS = {
     pushtate: 'pushState',
     popstate: 'popState'
 }
-export function completeUrlProduct(url: string): string  {
+export function completeUrlProduct(url: string | undefined): string  {
     const completedUrl =`https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?url=eq.${url}&select=*`
     return completedUrl;
 }

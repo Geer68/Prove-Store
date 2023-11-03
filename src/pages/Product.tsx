@@ -2,9 +2,9 @@ import { getProductUrl, getStockTalle } from "../../logic/configs";
 import { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/ui/button"
 import { Breadcrumb } from "../mineComponents/Breadcrumb";
-import { Articulos, Stock, ArticleOnCart } from "api/env";
+import { Articulos, Stock, ArticleOnCart } from "logic/types";
 import { CartContext } from "../mineComponents/context";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useParams } from "react-router-dom";
 
 export function Product() {
