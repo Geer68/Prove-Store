@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
-import { CartContext } from "@/componentsNoShad/context";
+import { CartContext } from "@/mineComponents/context";
 import { Button } from "@/components/ui/button";
-import { CartProduct } from "@/componentsNoShad/CartProduct";
+import { CartProduct } from "@/mineComponents/CartProduct";
 
 export function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);

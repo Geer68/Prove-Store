@@ -8,7 +8,8 @@ export const CartContext = createContext({
     addCantidad: (product: ArticleOnCart) => { },
     quitarCantidad: (product: ArticleOnCart) => { },
     clearCart: () => { },
-    totalArticlePrice: (): number => 0
+    totalArticlePrice: (): number => 0,
+    showCantidad: (): number => 0
 })
 
 export function CartProvider({ children }: { children: JSX.Element }) {
@@ -54,9 +55,12 @@ export function CartProvider({ children }: { children: JSX.Element }) {
     const quitarCantidad = (product: ArticleOnCart) => {
         //
     }
+    const showCantidad = () => {
+        return cart.reduce((cant, item) => cant + item.cantidad, 0);
+    }
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, clearCart, deleteFromCart, totalArticlePrice, addCantidad, quitarCantidad }}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ cart, addToCart, clearCart, deleteFromCart, totalArticlePrice, addCantidad, quitarCantidad, showCantidad }}>{children}</CartContext.Provider>
     )
 }
 

@@ -1,9 +1,9 @@
-import { getProductUrl, getStockTalle } from "../../api/configs";
+import { getProductUrl, getStockTalle } from "../../logic/configs";
 import { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/ui/button"
-import { Breadcrumb } from "../../src/componentsNoShad/Breadcrumb";
+import { Breadcrumb } from "../mineComponents/Breadcrumb";
 import { Articulos, Stock, ArticleOnCart } from "api/env";
-import { CartContext } from "../componentsNoShad/context";
+import { CartContext } from "../mineComponents/context";
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from "react-router-dom";
 
@@ -66,7 +66,6 @@ export function Product() {
   };
 
   useEffect(() => {
-    console.log(query);
     const fetchData = async () => {
       try {
         const fetchedProduct: Articulos = await getProductUrl(query);
@@ -87,7 +86,7 @@ export function Product() {
           {loading ? (
             <div>Cargando...</div>
           ) : (
-            <main className="flex gap-4 mx-20 ml-20 mt-10">
+            <main className="grid justify-center items-center gap-7 m-10 sm:flex sm:gap-4 sm:mx-20 sm:ml-20 sm:mt-10">
               <aside>
                 <img src={product?.img} alt="" className="rounded-lg w-96" />
               </aside>

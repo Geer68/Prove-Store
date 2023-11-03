@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Articulos } from '../../api/env';
+import { Articulos } from '../../logic/types';
 
 export function ProductoCard({ articles, until }: { articles: Articulos[], until: number }): JSX.Element {
 

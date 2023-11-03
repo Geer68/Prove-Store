@@ -3,6 +3,9 @@ import { HomePage } from "./pages/HomePage";
 import { Product } from "./pages/Product";
 import { Cart } from "./pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { NavigationBar } from "./mineComponents/NavigationBar";
+import { Toaster } from "react-hot-toast";
+import { Example } from "./pages/Prueba";
 
 type Route = {
   path: string;
@@ -21,13 +24,20 @@ const routes: Route[] = [
   {
     path: "/cart",
     Component: Cart,
+  },
+  {
+    path: "/prueba",
+    Component: Example,
   }
 ];
 
 function App() {
   return (
+    <>
     <main>
-      <BrowserRouter>
+      <BrowserRouter> 
+      <Toaster/>
+      <Example/>
         <Routes>
           {routes.map((route) => (
             <Route
@@ -39,6 +49,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </main>
+    </>
   );
 }
 

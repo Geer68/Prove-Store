@@ -1,5 +1,4 @@
-import {urls, Articulos, Stock} from "./env";
-
+import {urls, Articulos, Stock} from "./types";
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]>{

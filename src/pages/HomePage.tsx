@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getarticles } from "../../api/configs";
-import { ProductoCard } from "../../src/componentsNoShad/ProductoCard";
+import { getarticles } from "../../logic/configs";
+import { ProductoCard } from "../mineComponents/ProductoCard";
 import { Link } from "react-router-dom";
-import { Articulos } from "../../api/env";
+import { Articulos } from "../../logic/types";
 import portada1 from "../imgs/ambos.jpg";
 import portada2 from "../imgs/chica.jpg";
 
