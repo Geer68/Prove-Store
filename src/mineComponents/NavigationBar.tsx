@@ -91,11 +91,11 @@ export function NavigationBar() {
   if (cartContext === null) {
     throw new Error("Error al obtener el contexto del carrito");
   }
-  const { cart, showCantidad } = cartContext;
+  const { cart, showCantidad, deleteFromCart } = cartContext;
 
   useEffect(() => {
     setCantidad(showCantidad());
-  },[cart])
+  },[cart, showCantidad, deleteFromCart])
 
   return (
     <div className="bg-white sticky top-0 z-10">
@@ -217,13 +217,13 @@ export function NavigationBar() {
       </Transition.Root>
 
       <header className="relative bg-white">
-        {/* <p className="flex h-10 items-center justify-center bg-purple-700 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
-        </p> */}
+        <p className="flex h-10 items-center justify-center bg-yellow-900 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+          Disfrutá de envios gratis a partir de $21000
+        </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
+            <div className="flex h-16 justify-between items-center">
               <button
                 type="button"
                 className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
@@ -235,7 +235,7 @@ export function NavigationBar() {
               </button>
 
               {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
+              <div className='flex items-center'>
               <Link to="/"><img src={proveLogo} alt="" className="h-7 m-3 ml-7" /></Link>
               </div>
 

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { HomePage } from "./pages/HomePage";
 import { Product } from "./pages/Product";
 import { Cart } from "./pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { NavigationBar } from "./mineComponents/NavigationBar";
-
+import { CartContext } from '@/mineComponents/context'
 type Route = {
   path: string;
   Component: React.ComponentType<any>;
@@ -31,9 +31,16 @@ const routes: Route[] = [
 ];
 
 function App() {
+  const cartContext = useContext(CartContext);
+  if (cartContext === null) {
+    throw new Error("Error al obtener el contexto del carrito");
+  }
+  const { getLocalStorageCarrito } = cartContext;
+  useEffect(() => {
+    getLocalStorageCarrito();
+  }, [])
   return (
     <>
-    <main>
       <BrowserRouter> 
       <Toaster/>
       <NavigationBar/>
@@ -47,7 +54,6 @@ function App() {
           ))}
         </Routes>
       </BrowserRouter>
-    </main>
     </>
   );
 }
