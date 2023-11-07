@@ -1,8 +1,10 @@
 import React from "react";
 import { HomePage } from "./pages/HomePage";
 import { Product } from "./pages/Product";
-import { Router } from "../src/componentsNoShad/Router";
 import { Cart } from "./pages/Cart";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { NavigationBar } from "./mineComponents/NavigationBar";
 
 type Route = {
   path: string;
@@ -21,14 +23,32 @@ const routes: Route[] = [
   {
     path: "/cart",
     Component: Cart,
+  },
+  {
+    path: "/prueba",
+    Component: NavigationBar,
   }
 ];
 
 function App() {
   return (
+    <>
     <main>
-      <Router routes={routes} />
+      <BrowserRouter> 
+      <Toaster/>
+      <NavigationBar/>
+        <Routes>
+          {routes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<route.Component />}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
     </main>
+    </>
   );
 }
 

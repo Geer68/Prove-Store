@@ -1,5 +1,4 @@
-import {urls, Articulos, Stock} from "./env";
-
+import {urls, Articulos, Stock} from "./types";
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]>{
@@ -38,11 +37,11 @@ export const EVENTS = {
     pushtate: 'pushState',
     popstate: 'popState'
 }
-export function completeUrlProduct(url: string): string  {
+export function completeUrlProduct(url: string | undefined): string  {
     const completedUrl =`https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?url=eq.${url}&select=*`
     return completedUrl;
 }
-export async function getProductUrl(url: string): Promise<Articulos>  {
+export async function getProductUrl(url: string | undefined): Promise<Articulos>  {
     const modUrl = completeUrlProduct(url);
     return fetch(modUrl, {
         headers: {

@@ -1,20 +1,18 @@
-import { getProductUrl, getStockTalle } from "../../api/configs";
+import { getProductUrl, getStockTalle } from "../../logic/configs";
 import { useEffect, useState, useContext } from "react";
 import { Button } from "@/components/ui/button"
-import { NavigationMenuNoShad } from "../componentsNoShad/NavigarionMenuNoShad";
-import { NavigationMenuMobile } from "../componentsNoShad/NavigationMenuMobile";
-import { Breadcrumb } from "../../src/componentsNoShad/Breadcrumb";
-import { Articulos, Stock, ArticleOnCart } from "api/env";
-import { CartContext } from "../componentsNoShad/context";
-import toast, { Toaster } from 'react-hot-toast';
-import { ProductMobile } from "@/componentsNoShad/ProductMobile";
+import { Breadcrumb } from "../mineComponents/Breadcrumb";
+import { Articulos, Stock, ArticleOnCart } from "logic/types";
+import { CartContext } from "../mineComponents/context";
+import toast from 'react-hot-toast';
+import { useParams } from "react-router-dom";
 
-export function Product({ routeParams }: { routeParams: { query: string } }) {
+export function Product() {
   const [product, setProduct] = useState<Articulos | null>();
   const [stock, setStock] = useState<Stock>({ talle: "", stock: 0 });
   const [loading, setLoading] = useState(true);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const cartContext = useContext(CartContext);
+  const { query } = useParams();
 
   if (cartContext === null) {
     throw new Error("Error al obtener el contexto del carrito");
@@ -70,7 +68,7 @@ export function Product({ routeParams }: { routeParams: { query: string } }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedProduct: Articulos = await getProductUrl(routeParams.query);
+        const fetchedProduct: Articulos = await getProductUrl(query);
         setProduct(fetchedProduct);
         setLoading(false);
       } catch (error) {
@@ -78,37 +76,17 @@ export function Product({ routeParams }: { routeParams: { query: string } }) {
         setLoading(false);
       }
     };
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
+  
     fetchData();
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, []);
 
   return (
     <>
-      <nav>
-      <div className="top-30"><Toaster position="top-center" reverseOrder={false} /></div>
-        {windowWidth < 576 ? (
-          <NavigationMenuMobile></NavigationMenuMobile>
-        ) : (
-          <NavigationMenuNoShad></NavigationMenuNoShad>
-        )}
-      </nav>
-  
-      {windowWidth < 576 ? (
-        ProductMobile(product, routeParams, stock, handleTalleClick, handleCartClick)
-      ) : (
-        <>
-          <Breadcrumb catagory="Buzos" nombre={product?.nombre}></Breadcrumb>
+       <Breadcrumb catagory="Buzos" nombre={product?.nombre}></Breadcrumb>
           {loading ? (
             <div>Cargando...</div>
           ) : (
-            <main className="flex gap-4 mx-20 ml-20 mt-10">
+            <main className="grid justify-center items-center gap-7 m-10 sm:flex sm:gap-4 sm:mx-20 sm:ml-20 sm:mt-10">
               <aside>
                 <img src={product?.img} alt="" className="rounded-lg w-96" />
               </aside>
@@ -144,8 +122,6 @@ export function Product({ routeParams }: { routeParams: { query: string } }) {
               </aside>
             </main>
           )}
-        </>
-      )}
     </>
   );
 }

@@ -1,16 +1,13 @@
-import { NavigationMenuNoShad } from "../componentsNoShad/NavigarionMenuNoShad";
-import { NavigationMenuMobile } from "@/componentsNoShad/NavigationMenuMobile";
 import { useEffect, useState } from "react";
-import { getarticles } from "../../api/configs";
-import { ProductoCard } from "../../src/componentsNoShad/ProductoCard";
-import { Articulos } from "../../api/env";
-import { Link } from "../componentsNoShad/Link";
+import { getarticles } from "../../logic/configs";
+import { ProductoCard } from "../mineComponents/ProductoCard";
+import { Link } from "react-router-dom";
+import { Articulos } from "../../logic/types";
 import portada1 from "../imgs/ambos.jpg";
 import portada2 from "../imgs/chica.jpg";
 
 export function HomePage() {
   const [articles, setArticles] = useState<Articulos[]>([]);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,26 +19,12 @@ export function HomePage() {
       }
     };
 
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
 
     fetchData();
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
   }, []);
 
   return (
     <>
-      <nav>
-        {windowWidth < 576 ? (
-          <NavigationMenuMobile></NavigationMenuMobile>
-        ) : (
-          <NavigationMenuNoShad></NavigationMenuNoShad>
-        )}
-      </nav>
       <section className="grid gap-4 justify-items-center w-full relative">
         <img src={portada1} alt="" className="w-full brightness-50" />
         <div className="absolute w-4/6 grid top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white items-center justify-center">

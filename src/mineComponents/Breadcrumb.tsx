@@ -1,4 +1,5 @@
-import {Link} from "./Link";
+import { Link } from "react-router-dom";
+
 
 export function Breadcrumb({ catagory, nombre }: { catagory: string, nombre: string | undefined }): JSX.Element {
   return (

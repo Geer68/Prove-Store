@@ -1,8 +1,8 @@
-import { Articulos, Stock } from "api/env";
+import { Articulos, Stock } from "logic/types";
 import { Button } from "@/components/ui/button";
 
 
-export function ProductMobile(product: Articulos | null | undefined, routeParams: { query: string }, stock: Stock, handleTalleClick: (talle: string) => void, handleCartClick: (producto: Articulos | null | undefined) => void) {
+export function ProductMobile(product: Articulos | null | undefined, routeParams: { query: string | undefined }, stock: Stock, handleTalleClick: (talle: string) => void, handleCartClick: (producto: Articulos | null | undefined) => void) {
     return (
         <main className="grid justify-center items-center gap-7 m-10">
             <header className="grid gap-3">
