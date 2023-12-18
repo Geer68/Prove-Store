@@ -9,6 +9,7 @@ import portada2 from "../imgs/chica.jpg";
 export function HomePage() {
   const [articles, setArticles] = useState<Articulos[]>([]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,6 +19,7 @@ export function HomePage() {
         console.error("Error al obtener los artículos:", error);
       }
     };
+
 
 
     fetchData();

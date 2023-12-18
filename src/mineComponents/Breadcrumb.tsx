@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 export function Breadcrumb({
-  catagory,
+  category,
   nombre,
 }: {
-  catagory: string;
+  category: string | undefined | null;
   nombre: string | undefined;
 }): JSX.Element {
   return (
@@ -41,7 +41,7 @@ export function Breadcrumb({
                 />
               </svg>
               <Link to={'/products'} className="ml-1 text-sm font-medium text-gray-700 hover:text-yellow-900 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-              {catagory}
+              {category}
               </Link>
             </div>
           </li>

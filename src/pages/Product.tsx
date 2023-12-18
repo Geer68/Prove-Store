@@ -7,6 +7,8 @@ import { CartContext } from "../mineComponents/context";
 import numeral from "numeral";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { SkeletonProductPage } from "@/mineComponents/SkeletonProductPage";
+import { ProductTailwind } from "@/mineComponents/ProductTailwind";
 
 export function Product() {
   const [product, setProduct] = useState<Articulos | null>();
@@ -72,7 +74,7 @@ export function Product() {
         setLoading(false);
       } catch (error) {
         console.error("Error al obtener los artículos:", error);
-        setLoading(false);
+        setLoading(true);
       }
     };
     fetchData();
@@ -80,7 +82,12 @@ export function Product() {
 
   return (
     <>
-      <Breadcrumb catagory="Buzos" nombre={product?.nombre}></Breadcrumb>
+    <ProductTailwind product={product}/>
+      {/* {loading ? (
+        <SkeletonProductPage/>
+      ) : (
+      <>
+      <Breadcrumb catagory={product?.category} nombre={product?.nombre}></Breadcrumb>
       {window.innerWidth < 768 ? (
         <header className="grid  items-center gap-5 mr-10 ml-10 mt-">
           <h1 className="font-bold text-2xl">{product?.nombre}</h1>
@@ -91,9 +98,6 @@ export function Product() {
       ) : (
         <></>
       )}
-      {loading ? (
-        <div>Cargando...</div>
-      ) : (
         <article className="grid justify-center items-center gap-7 mr-10 mt-5 ml-10 sm:flex sm:gap-4 sm:mx-20 sm:ml-20 sm:mt-10">
           <img src={product?.img} alt="" className="rounded-lg w-96" />
           <aside>
@@ -156,7 +160,8 @@ export function Product() {
             </footer>
           </aside>
         </article>
-      )}
+      </>
+      )} */}
     </>
   );
 }

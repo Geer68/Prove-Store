@@ -3,7 +3,7 @@ export const urls = {
 }
 export type Articulos = {
     id: number;
-    tipo: string;
+    category: string;
     url: string;
     nombre: string;
     precio: number;
@@ -16,6 +16,14 @@ export type ArticleOnCart = {
     talle: string
 }
 export type Stock = {
+    id: number;
     talle: string;
     stock: number;
 }
+export interface IpInfo {
+    ip: string;
+    postal: string;
+    region: string;
+    region_code: string;
+    country_name: string;
+  }

@@ -22,6 +22,9 @@ module.exports = {
       aspectRatio: {
         '4/3': '4 / 3',
       },
+      gridTemplateRows: {
+        '[auto,auto,1fr]': 'auto auto 1fr',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
