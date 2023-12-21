@@ -1,13 +1,17 @@
 import { Articulos, Stock, ArticleOnCart } from "logic/types";
-import { getStockTalle } from "../../logic/configs";
+import { getStockTalle, getProductUrl } from "../../logic/configs";
 import { Breadcrumb } from "../mineComponents/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import numeral from "numeral";
 import { useEffect, useState, useContext } from "react";
 import { SizeBox } from "../mineComponents/SizeBox";
 import { CartContext } from "../mineComponents/context";
+import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-export function Product({ product }: { product: Articulos }) {
+export function Product() {
+  const [product, setProduct] = useState<Articulos | null>();
+  // const [loading, setLoading] = useState(true);
+  const { query } = useParams();
   const [stockArray, setStockArray] = useState<Stock[]>([]);
   const [selectedSize, setSelectedSize] = useState(" ");
   const cartContext = useContext(CartContext);
@@ -48,6 +52,17 @@ export function Product({ product }: { product: Articulos }) {
     }
   };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedProduct: Articulos = await getProductUrl(query);
+        setProduct(fetchedProduct);
+        // setLoading(false);
+      } catch (error) {
+        console.error("Error al obtener los artículos:", error);
+        // setLoading(true);
+      }
+    };
+    fetchData();
     if (!product?.id) return;
     getStockTalle(product?.id)
       .then((stockArrayResponse: Stock[] | null) => {
