@@ -101,6 +101,9 @@ export async function getIpClient(): Promise<IpInfo> {
 
 export async function getPriceDelivery(): Promise<number> {
   const ip: IpInfo = await getIpClient();
+  if(ip.postal == "5539"){
+    return 0
+  }
   const options = {
     method: "GET",
     url: "https://correo-argentino1.p.rapidapi.com/calcularPrecio",
@@ -113,15 +116,10 @@ export async function getPriceDelivery(): Promise<number> {
       //TODO: Agregar parámetro del peso
     },
     headers: {
-      "X-RapidAPI-Key": "f444acd76cmsh48369b4aa5f09bep1e4a37jsnf99a884071ec",
-      "X-RapidAPI-Host": "correo-argentino1.p.rapidapi.com",
+      'X-RapidAPI-Key': '0a15cf21dfmsh68ac299117c9b9fp14954fjsn42453f3565a2',
+      'X-RapidAPI-Host': 'correo-argentino1.p.rapidapi.com'
     },
   };
-  try {
     const response = await axios.request(options);
     return response.data?.paqarClasico?.aDomicilio || 0
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
 }

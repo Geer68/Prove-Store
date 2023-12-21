@@ -146,7 +146,7 @@ export function NavigationBar() {
                           key={category.name}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-purple-700 text-purple-700' : 'border-transparent text-gray-900',
+                              selected ? 'border-yellow-900 text-yellow-900' : 'border-transparent text-gray-900',
                               'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
                             )
                           }
@@ -236,7 +236,7 @@ export function NavigationBar() {
 
               {/* Logo */}
               <div className='flex items-center'>
-              <Link to="/"><img src={proveLogo} alt="" className="h-7 m-3 ml-7" /></Link>
+              <Link to="/"><img src={proveLogo} alt="" className="h-7 m-3" /></Link>
               </div>
 
               {/* Flyout menus */}
@@ -250,7 +250,7 @@ export function NavigationBar() {
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? 'border-purple-700 text-purple-700'
+                                  ? 'border-yellow-900 text-yellow-900'
                                   : 'border-transparent text-gray-700 hover:text-gray-800',
                                 'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
                               )}

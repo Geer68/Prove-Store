@@ -1,13 +1,52 @@
-import { Articulos, Stock } from "logic/types";
+import { Articulos, Stock, ArticleOnCart } from "logic/types";
 import { getStockTalle } from "../../logic/configs";
 import { Breadcrumb } from "./Breadcrumb";
 import { Button } from "@/components/ui/button";
 import numeral from "numeral";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { SizeBox } from "../mineComponents/SizeBox";
+import { CartContext } from "../mineComponents/context";
+import toast from "react-hot-toast";
 export function ProductTailwind({ product }: { product: Articulos }) {
   const [stockArray, setStockArray] = useState<Stock[]>([]);
-
+  const [selectedSize, setSelectedSize] = useState(" ");
+  const cartContext = useContext(CartContext);
+  if (cartContext === null) {
+    throw new Error("Error al obtener el contexto del carrito");
+  }
+  const { addToCart } = cartContext;
+  const handleTalleClick = (size: string) => {
+    setSelectedSize(size);
+  };
+  const notify = (itemToAdd: ArticleOnCart) => {
+    toast.success(`Añadido ${itemToAdd.item.nombre}`, {
+      style: {
+        border: "1px solid #252525",
+        padding: "16px",
+        color: "#252525",
+      },
+      iconTheme: {
+        primary: "#252525",
+        secondary: "#FFFAEE",
+      },
+    });
+  };
+  const notifyError = () => {
+    toast.error("No seleccionaste un talle");
+  };
+  const handleCartClick = (producto: Articulos | null | undefined) => {
+    if (producto && selectedSize !== " ") {
+      const itemToAdd: ArticleOnCart = {
+        item: producto,
+        cantidad: 1,
+        talle: selectedSize,
+      };
+      addToCart(itemToAdd);
+      notify(itemToAdd);
+    } else if (selectedSize == " ") {
+      notifyError();
+    }
+  };
   useEffect(() => {
     if (!product?.id) return;
     getStockTalle(product?.id)
@@ -77,256 +116,97 @@ export function ProductTailwind({ product }: { product: Articulos }) {
                 {numeral(product?.precio).format("$0,0")}
               </p>
 
-              <form className="mt-10">
-                {/* <!-- Colors --> */}
-                <div>
-                  <h3 className="text-sm font-medium text-gray-900">Color</h3>
+              {/* <!-- Colors --> */}
+              <div className="mt-6">
+                <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">Choose a color</legend>
-                    <div className="flex items-center space-x-3">
-                      {/* <!--
+                <fieldset className="mt-4">
+                  <legend className="sr-only">Choose a color</legend>
+                  <div className="flex items-center space-x-3">
+                    {/* <!--
                   Active and Checked: "ring ring-offset-1"
                   Not Active and Checked: "ring-2"
                 --> */}
-                      <label className="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-400">
-                        <input
-                          type="radio"
-                          name="color-choice"
-                          value="White"
-                          className="sr-only"
-                          aria-labelledby="color-choice-0-label"
-                        />
-                        <span id="color-choice-0-label" className="sr-only">
-                          White
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="h-8 w-8 bg-white rounded-full border border-black border-opacity-10"
-                        ></span>
-                      </label>
-                      {/* <!--
+                    <label className="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
+                      <input
+                        type="radio"
+                        name="color-choice"
+                        value="Black"
+                        className="sr-only"
+                        aria-labelledby="color-choice-2-label"
+                      />
+                      <span id="color-choice-2-label" className="sr-only">
+                        Black
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-8 w-8 bg-slate-900 rounded-full border border-black border-opacity-10"
+                      ></span>
+                    </label>
+                    {/* <!--
                   Active and Checked: "ring ring-offset-1"
                   Not Active and Checked: "ring-2"
                 --> */}
-                      <label className="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
-                        <input
-                          type="radio"
-                          name="color-choice"
-                          value="Black"
-                          className="sr-only"
-                          aria-labelledby="color-choice-2-label"
-                        />
-                        <span id="color-choice-2-label" className="sr-only">
-                          Black
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="h-8 w-8 bg-gray-900 rounded-full border border-black border-opacity-10"
-                        ></span>
-                      </label>
-                    </div>
-                  </fieldset>
-                </div>
-
-                {/* <!-- Sizes --> */}
-                <div className="mt-10">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-900">Talle</h3>
-                    <a
-                      href="#"
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Guía de talles
-                    </a>
+                    <label className="ring-1 ring-yellow-950 ring-offset-1 relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
+                      <input
+                        type="radio"
+                        name="color-choice"
+                        value="Black"
+                        className="sr-only"
+                        aria-labelledby="color-choice-2-label"
+                      />
+                      <span id="color-choice-2-label" className="sr-only">
+                        Black
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="h-8 w-8 bg-orange-900 rounded-full border border-black border-opacity-10"
+                      ></span>
+                    </label>
                   </div>
+                </fieldset>
+              </div>
 
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">Choose a size</legend>
-                    <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                      {stockArray.length > 0 ? (
-                        stockArray.map((letra) => (
-                          <SizeBox key={letra.talle} talle={letra.talle} stock={letra.stock} />
-                        ))
-                      ) : (
-                        <p>Cargando artículos...</p>
-                      )}
-                      {/* <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-not-allowed bg-gray-50 text-gray-200">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="XXS"
-                          disabled
-                          className="sr-only"
-                          aria-labelledby="size-choice-0-label"
-                        />
-                        <span id="size-choice-0-label">XXS</span>
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                        >
-                          <svg
-                            className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                            viewBox="0 0 100 100"
-                            preserveAspectRatio="none"
-                            stroke="currentColor"
-                          >
-                            <line
-                              x1="0"
-                              y1="100"
-                              x2="100"
-                              y2="0"
-                              vectorEffect="non-scaling-stroke"
-                            />
-                          </svg>
-                        </span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="XS"
-                          className="sr-only"
-                          aria-labelledby="size-choice-1-label"
-                        />
-                        <span id="size-choice-1-label">XS</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="S"
-                          className="sr-only"
-                          aria-labelledby="size-choice-2-label"
-                        />
-                        <span id="size-choice-2-label">S</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="M"
-                          className="sr-only"
-                          aria-labelledby="size-choice-3-label"
-                        />
-                        <span id="size-choice-3-label">M</span>
-                        {/* <!-- 
-                        {/* Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="L"
-                          className="sr-only"
-                          aria-labelledby="size-choice-4-label"
-                        />
-                        <span id="size-choice-4-label">L</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="XL"
-                          className="sr-only"
-                          aria-labelledby="size-choice-5-label"
-                        />
-                        <span id="size-choice-5-label">XL</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="2XL"
-                          className="sr-only"
-                          aria-labelledby="size-choice-6-label"
-                        />
-                        <span id="size-choice-6-label">2XL</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label>
-                      
-                      <label className="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm">
-                        <input
-                          type="radio"
-                          name="size-choice"
-                          value="3XL"
-                          className="sr-only"
-                          aria-labelledby="size-choice-7-label"
-                        />
-                        <span id="size-choice-7-label">3XL</span>
-                        {/* <!--
-                    Active: "border", Not Active: "border-2"
-                    Checked: "border-indigo-500", Not Checked: "border-transparent"
-                  --> 
-                        <span
-                          className="pointer-events-none absolute -inset-px rounded-md"
-                          aria-hidden="true"
-                        ></span>
-                      </label> */}
-                    </div>
-                  </fieldset>
-                </div>
-                <div className="grid gap-4 pt-10">
-                  <Button>Comprar</Button>
-                  <Button
-                    variant={"secondary"}
-                    onClick={() => handleCartClick(product)}
+              {/* <!-- Sizes --> */}
+              <div className="mt-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-medium text-gray-900">Talle</h3>
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-yellow-900 hover:text-yellow-800"
                   >
-                    Agregar al carrito
-                  </Button>
+                    Guía de talles
+                  </a>
                 </div>
-              </form>
+
+                <fieldset className="mt-4">
+                  <legend className="sr-only">Choose a size</legend>
+                  <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
+                    {stockArray.length > 0 ? (
+                      stockArray.map((letra) => (
+                        <SizeBox
+                          onSelect={handleTalleClick}
+                          selectedSize={selectedSize}
+                          key={letra.talle}
+                          talle={letra.talle}
+                          stock={letra.stock}
+                        />
+                      ))
+                    ) : (
+                      <p>Cargando artículos...</p>
+                    )}
+                  </div>
+                </fieldset>
+              </div>
+              <div className="grid gap-4 pt-10">
+                <Button>Comprar</Button>
+                <Button
+                  variant={"secondary"}
+                  onClick={() => handleCartClick(product)}
+                >
+                  Agregar al carrito
+                </Button>
+              </div>
             </div>
 
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">

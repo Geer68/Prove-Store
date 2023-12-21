@@ -1,0 +1,44 @@
+{
+    "message": "Request failed with status code 404",
+    "name": "AxiosError",
+    "stack": "AxiosError: Request failed with status code 404\n    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=b43cf4e9:1204:12)\n    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=b43cf4e9:1421:7)",
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "adapter": [
+            "xhr",
+            "http"
+        ],
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "X-RapidAPI-Key": "0a15cf21dfmsh68ac299117c9b9fp14954fjsn42453f3565a2",
+            "X-RapidAPI-Host": "corraeo-argentino1.p.rapidapi.com"
+        },
+        "method": "get",
+        "url": "https://correo-argentino1.p.rapidapi.com/calcularPrecio",
+        "params": {
+            "cpOrigen": "5500",
+            "cpDestino": "5539",
+            "provinciaOrigen": "AR-M",
+            "provinciaDestino": "AR-S",
+            "peso": "1"
+        }
+    },
+    "code": "ERR_BAD_REQUEST",
+    "status": 404
+}
