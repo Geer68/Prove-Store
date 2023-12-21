@@ -101,6 +101,7 @@ export async function getIpClient(): Promise<IpInfo> {
 
 export async function getPriceDelivery(): Promise<number> {
   const ip: IpInfo = await getIpClient();
+  console.log(ip)
   if(ip.postal == "5539"){
     return 0
   }

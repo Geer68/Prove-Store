@@ -20,24 +20,26 @@ export function CartProduct({
   const clickDeleteArticle = (product: ArticleOnCart) => {
     deleteFromCart(product);
   };
-
   return (
     <tr className="items-center">
       <td className="hidden pb-4 md:table-cell">
-        <a href="#">
+      <Link to={`/product/${product.item.url}`} key={product.item.id}>
           <img
             className="w-20 rounded"
             alt="Thumbnail"
             src={product.item.img}
           />
-        </a>
+       </Link>
       </td>
       <td>
-        {/* <Link to={`/product/${product.url}`} key={article.id}> */}
-        <p className="mb-2 md:ml-4">
-          {product.item.nombre} [{talle}]
-        </p>
-        {/* </Link> */}
+        <Link to={`/product/${product.item.url}`} key={product.item.id}>
+          <p className="mb-2">
+            {product.item.nombre} [{talle}]
+          </p>
+        </Link>
+        <small onClick={() => clickDeleteArticle(product)}>
+          Borrar artículo
+        </small>
       </td>
       <td className="justify-center md:justify-end md:flex mt-6">
         <div className="w-20 h-10">
@@ -88,29 +90,29 @@ export function CartProduct({
     //   </aside>
     // </article>
     //{/* <Button
-            //   onClick={() => {
-            //     clickDeleteArticle(product);
-            //   }}
-            //   variant={"outline"}
-            // >
-            //   <svg
-            //     xmlns="http://www.w3.org/2000/svg"
-            //     width="24"
-            //     height="24"
-            //     viewBox="0 0 24 24"
-            //     strokeWidth="2"
-            //     stroke="currentColor"
-            //     fill="none"
-            //     strokeLinecap="round"
-            //     strokeLinejoin="round"
-            //   >
-            //     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            //     <path d="M4 7l16 0"></path>
-            //     <path d="M10 11l0 6"></path>
-            //     <path d="M14 11l0 6"></path>
-            //     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-            //     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-            //   </svg>
-            // </Button> */}
+    //   onClick={() => {
+    //     clickDeleteArticle(product);
+    //   }}
+    //   variant={"outline"}
+    // >
+    //   <svg
+    //     xmlns="http://www.w3.org/2000/svg"
+    //     width="24"
+    //     height="24"
+    //     viewBox="0 0 24 24"
+    //     strokeWidth="2"
+    //     stroke="currentColor"
+    //     fill="none"
+    //     strokeLinecap="round"
+    //     strokeLinejoin="round"
+    //   >
+    //     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    //     <path d="M4 7l16 0"></path>
+    //     <path d="M10 11l0 6"></path>
+    //     <path d="M14 11l0 6"></path>
+    //     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+    //     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+    //   </svg>
+    // </Button> */}
   );
 }

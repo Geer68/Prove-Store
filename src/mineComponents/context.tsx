@@ -117,11 +117,11 @@ export function CartProvider({ children }: { children: JSX.Element }) {
 
 export const IpContext = createContext({
   ip: {
-    city: "",
-    country: "",
-    ip: "",
-    postal: "",
-    region: "",
+    city: "", //Departamento
+    postal: "", //CP
+    region: "", //Provincia
+    region_code: "", //AR
+    country_name: "", //Argentina
   },
   setNewIP: () => {},
 });
@@ -129,10 +129,11 @@ export const IpContext = createContext({
 export function IpProvider({ children }: { children: JSX.Element }) {
   const [ip, setIp] = useState<IpInfo>({
     ip: "",
-    city: "",
-    region: "",
-    country: "",
-    postal: "",
+    city: "", //Departamento
+    postal: "", //CP
+    region: "", //Provincia
+    region_code: "", //AR
+    country_name: "", //Argentina
   });
 
   const setNewIP = () => {

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export function SizeBox({ talle, stock, selectedSize, onSelect }: { talle: string; stock: number, selectedSize: string, onSelect: (talle: string) => void }) {
   const handdleClick = () => {
     onSelect(talle);

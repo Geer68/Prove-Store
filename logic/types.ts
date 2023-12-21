@@ -22,8 +22,9 @@ export type Stock = {
 }
 export interface IpInfo {
     ip: string;
-    postal: string;
-    region: string;
-    region_code: string;
-    country_name: string;
+    city: string; //Departamento
+    postal: string; //CP
+    region: string; //Provincia
+    region_code: string; //AR
+    country_name: string; //Argentina
   }
