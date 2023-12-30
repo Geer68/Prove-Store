@@ -37,7 +37,9 @@ export function CartProduct({
             {product.item.nombre} [{talle}]
           </p>
         </Link>
-        <small onClick={() => clickDeleteArticle(product)}>
+        <small 
+        className="text-red-800"
+        onClick={() => clickDeleteArticle(product)}>
           Borrar artículo
         </small>
       </td>

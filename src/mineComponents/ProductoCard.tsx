@@ -1,22 +1,32 @@
-import { Link } from 'react-router-dom';
-import { Articulos } from '../../logic/types';
+import { Link } from "react-router-dom";
+import { Articulos } from "../../logic/types";
+import numeral from "numeral";
 
-export function ProductoCard({ articles, until }: { articles: Articulos[], until: number }): JSX.Element {
-
+export function ProductoCard({
+  articles,
+  until,
+}: {
+  articles: Articulos[];
+  until: number;
+}): JSX.Element {
   const articlesToShow = articles.slice(0, until);
-    return (
-      <section className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4 mt-6'>
-        {articlesToShow.map((article) => (
-          <Link to={`/product/${article.url}`} key={article.id}>
-            <article key={article.id} className='pb-3'>
-              <img src={article.img} alt={article.nombre} className=' min-w-[100px]' />
-              <section className=' grid gap-1 product-info p-2 pl-0'>
-                <p className='font-light text-md'>{article.nombre}</p>
-                <p className='text-sm font-medium mb-2'>${article.precio}</p>
-              </section>
-            </article>
-          </Link>
-        ))}
-      </section>
-    );
+  return (
+    <div className="grid mt-6 p-4 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      {articlesToShow.map((product) => (
+        <Link key={product.id} to={`/product/${product.url}`} className="group">
+          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+            <img
+              src={product.img}
+              alt={product.nombre}
+              className="h-full w-full object-cover object-center group-hover:opacity-75"
+            />
+          </div>
+          <h3 className="mt-4 text-sm text-gray-700">{product.nombre}</h3>
+          <p className="mt-1 text-lg font-medium text-gray-900">
+            {numeral(product.precio).format("$0,0")}
+          </p>
+        </Link>
+      ))}
+    </div>
+  );
 }

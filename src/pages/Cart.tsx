@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { CartProduct } from "@/mineComponents/CartProduct";
 import { IpContext } from "../mineComponents/context";
 import numeral from "numeral";
-import { getPriceDelivery } from "../../logic/configs";
+import { getPriceDelivery, checkCupon } from "../../logic/configs";
 import toast from "react-hot-toast";
+import { Cupon } from "logic/types";
 
 export function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
+  const [apliedCupon, setApliedCupon] = useState<Cupon>();
   const cartContext = useContext(CartContext);
   if (cartContext === null) {
     throw new Error("Error al obtener el contexto del carrito");
@@ -24,7 +26,6 @@ export function Cart() {
   const checkLocation = async () => {
     try {
       const price = await getPriceDelivery();
-      console.log(price);
       if (price) {
         setDeliveryPrice(price);
       }
@@ -33,14 +34,32 @@ export function Cart() {
     }
   };
 
+  const handleCuponClick = async () => {
+    const cupon = document.getElementById("cuponInput") as HTMLInputElement;
+    console.log(cupon.value);
+    if(cupon.value.length === 0) {
+      toast.error("No ingresaste un cupón");
+      return
+    }
+    const response = await checkCupon(String(cupon.value).toUpperCase());
+    if (!response) {
+      toast.error("Cupon no valido");
+      return;
+    }
+    setApliedCupon(response);
+    apliedCupon?.type === 1 && setTotalPrice(totalPrice - apliedCupon?.m_neto);
+    apliedCupon?.type === 2 && setTotalPrice(totalPrice * (1 - (apliedCupon?.m_porcent || 0) / 100));
+  };
+
   useEffect(() => {
     checkLocation();
     setTotalPrice(totalArticlePrice() + deliveryPrice);
+    
   }, [cart, deliveryPrice, totalArticlePrice]);
 
   return (
     <>
-      <div className="flex justify-center my-6">
+      <div className="flex justify-center">
         <div className="flex flex-col w-full p-8 text-gray-800 bg-white md:w-4/5 lg:w-4/5">
           <div className="flex-1">
             <table className="w-full text-sm lg:text-base" cellSpacing={0}>
@@ -74,16 +93,16 @@ export function Cart() {
                 </div>
                 <div className="p-4 mb-4">
                   <div className="justify-center md:flex">
-                    <div className="flex items-center w-full h-13 pl-3 bg-white bg-gray-100 border rounded-full">
+                    <div className="flex items-center w-full h-13 pl-3 bg-white border rounded-full">
                       <input
-                        type="coupon"
+                        type="cupon"
                         name="code"
-                        id="coupon"
+                        id="cuponInput"
                         placeholder="I <3 PROVE"
                         className="w-full outline-none appearance-none focus:outline-none active:outline-none"
                       />
                       <button
-                        type="submit"
+                        onClick={() => handleCuponClick()}
                         className="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none"
                       >
                         <svg

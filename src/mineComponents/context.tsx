@@ -63,7 +63,7 @@ export function CartProvider({ children }: { children: JSX.Element }) {
       (item) => item.item.id !== product.item.id || item.talle !== product.talle
     );
     setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
   const quitarCantidad = (productToAdd: ArticleOnCart) => {
     const existingProduct = cart.find(

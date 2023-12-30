@@ -1,4 +1,4 @@
-import { urls, Articulos, Stock, IpInfo } from "./types";
+import { urls, Articulos, Stock, IpInfo, Cupon } from "./types";
 import axios from "axios";
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
@@ -30,7 +30,6 @@ export async function getarticles(): Promise<Articulos[]> {
       return articles;
     })
     .catch((err) => {
-      console.log(err);
       throw err;
     });
 }
@@ -62,48 +61,36 @@ export async function getProductUrl(
       return data[0] || null;
     })
     .catch((err) => {
-      console.log(err);
       throw err;
     });
 }
 export function completeUrlStock(id: number): string {
   return `https://unfnzrryujymfledkybt.supabase.co/rest/v1/stocks?id=eq.${id}&select=*`;
 }
-export async function getStockTalle( id: number): Promise<Stock[] | null> {
-  if( !id ) return null;
+export async function getStockTalle(id: number): Promise<Stock[] | null> {
+  if (!id) return null;
   const modUrl = completeUrlStock(id);
 
-  try {
-    const response = await axios.get(modUrl, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        apikey: `${apiKey}`,
-      },
-    });
-    return response.data || null; 
-  } catch (error) {
-    console.error('Error al obtener los datos', error);
-    throw error;
-  }
+  const response = await axios.get(modUrl, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      apikey: `${apiKey}`,
+    },
+  });
+  return response.data || null;
 }
 
 export async function getIpClient(): Promise<IpInfo> {
-  try {
-    const response = await axios.get(
-      "https://api.ipdata.co?api-key=1521df7b16703b3f460842fe2d91e14724870609a090b14f624d75f4"
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  const response = await axios.get(
+    "https://api.ipdata.co?api-key=1521df7b16703b3f460842fe2d91e14724870609a090b14f624d75f4"
+  );
+  return response.data;
 }
 
 export async function getPriceDelivery(): Promise<number> {
   const ip: IpInfo = await getIpClient();
-  console.log(ip)
-  if(ip.postal == "5539"){
-    return 0
+  if (ip.postal == "5539") {
+    return 0;
   }
   const options = {
     method: "GET",
@@ -117,10 +104,24 @@ export async function getPriceDelivery(): Promise<number> {
       //TODO: Agregar parámetro del peso
     },
     headers: {
-      'X-RapidAPI-Key': '0a15cf21dfmsh68ac299117c9b9fp14954fjsn42453f3565a2',
-      'X-RapidAPI-Host': 'correo-argentino1.p.rapidapi.com'
+      "X-RapidAPI-Key": "0a15cf21dfmsh68ac299117c9b9fp14954fjsn42453f3565a2",
+      "X-RapidAPI-Host": "correo-argentino1.p.rapidapi.com",
     },
   };
-    const response = await axios.request(options);
-    return response.data?.paqarClasico?.aDomicilio || 0
+  const response = await axios.request(options);
+  console.log("aa");
+  return response.data?.paqarClasico?.aDomicilio || 0;
+}
+
+export async function checkCupon(cuponInput: string): Promise<Cupon> {
+  const options = {
+    method: "GET",
+    url: `https://unfnzrryujymfledkybt.supabase.co/rest/v1/cupones?cupon=eq.${cuponInput}&select=*`,
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      apikey: `${apiKey}`,
+    },
+  };
+  const response = await axios.request(options);
+  return response.data[0] || null;
 }

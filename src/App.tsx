@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { NavigationBar } from "./mineComponents/NavigationBar";
 import { CartContext } from '@/mineComponents/context'
+import { AllProducts } from "./pages/AllProducts";
+import { Page404 } from "./pages/Page404";
 type Route = {
   path: string;
   Component: React.ComponentType<any>;
@@ -25,8 +27,12 @@ const routes: Route[] = [
     Component: Cart,
   },
   {
-    path: "/prueba",
-    Component: NavigationBar,
+    path: "/products",
+    Component: AllProducts,
+  },
+  {
+    path: "*",
+    Component: Page404,
   }
 ];
 
@@ -45,6 +51,9 @@ function App() {
       <Toaster/>
       <NavigationBar/>
         <Routes>
+          <Route path="*"
+            element={<Page404 />}
+          />
           {routes.map((route) => (
             <Route
               key={route.path}
