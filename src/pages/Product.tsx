@@ -2,6 +2,16 @@ import { Articulos, Stock, ArticleOnCart } from "logic/types";
 import { getStockTalle, getProductUrl } from "../../logic/configs";
 import { Breadcrumb } from "../mineComponents/Breadcrumb";
 import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import numeral from "numeral";
 import { useEffect, useState, useContext } from "react";
 import { SizeBox } from "../mineComponents/SizeBox";
@@ -53,12 +63,11 @@ export function Product() {
     }
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchData = async () => {
       try {
-        // await new Promise((resolve) => setTimeout(resolve, 25000));
         const fetchedProduct: Articulos = await getProductUrl(query);
         setProduct(fetchedProduct);
-        setLoading(false);
       } catch (error) {
         console.error("Error al obtener los artículos:", error);
         setLoading(true);
@@ -74,6 +83,7 @@ export function Product() {
           console.error("No se encontró stock para el producto");
         }
       })
+      .then(() => setLoading(false))
       .catch((error) => {
         console.error(error);
       });
@@ -165,7 +175,7 @@ export function Product() {
                   Active and Checked: "ring ring-offset-1"
                   Not Active and Checked: "ring-2"
                 --> */}
-                      <label className="ring-1 ring-yellow-950 ring-offset-1 relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
+                      <label className="ring-1 ring-yellow-950 ring-offset-1 relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ">
                         <input
                           type="radio"
                           name="color-choice"
@@ -189,12 +199,22 @@ export function Product() {
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Talle</h3>
-                    <a
-                      href="#"
-                      className="text-sm font-medium text-yellow-900 hover:text-yellow-800"
-                    >
-                      Guía de talles
-                    </a>
+                    <Drawer>
+                      <DrawerTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
+                        Guía de talles
+                      </DrawerTrigger>
+                      <DrawerContent>
+                        <DrawerHeader>
+                          <DrawerTitle>Fotito de talles</DrawerTitle>
+                          <DrawerDescription>
+                            Aun no lo termino
+                          </DrawerDescription>
+                        </DrawerHeader>
+                        <DrawerFooter>
+                          {/* <DrawerClose>Cancel</DrawerClose> */}
+                        </DrawerFooter>
+                      </DrawerContent>
+                    </Drawer>
                   </div>
 
                   <fieldset className="mt-4">
