@@ -1,6 +1,6 @@
 import { Articulos, Stock, ArticleOnCart } from "logic/types";
 import { getStockTalle, getProductUrl } from "../../logic/configs";
-import { Breadcrumb } from "../mineComponents/Breadcrumb";
+import { Breadcrumb } from "../components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -14,13 +14,14 @@ import {
 } from "@/components/ui/drawer";
 import numeral from "numeral";
 import { useEffect, useState, useContext } from "react";
-import { SizeBox } from "../mineComponents/SizeBox";
-import { CartContext } from "../mineComponents/context";
+import { SizeBox } from "../components/SizeBox";
+import { CartContext } from "../contexts/cart";
 import { useParams } from "react-router-dom";
-import toast from "react-hot-toast";
-import { SkeletonProductPage } from "@/mineComponents/SkeletonProductPage";
+import { SkeletonProductPage } from "@/components/SkeletonProductPage";
+import { UnorderList } from "@/components/UnorderLi";
+import { notify, notifyENoSelectedTalle } from "../hooks/toast";
 export function Product() {
-  const [product, setProduct] = useState<Articulos | null>();
+  const [product, setProduct] = useState<Articulos>();
   const [loading, setLoading] = useState(true);
   const { query } = useParams();
   const [stockArray, setStockArray] = useState<Stock[]>([]);
@@ -33,23 +34,7 @@ export function Product() {
   const handleTalleClick = (size: string) => {
     setSelectedSize(size);
   };
-  const notify = (itemToAdd: ArticleOnCart) => {
-    toast.success(`Añadido ${itemToAdd.item.nombre}`, {
-      style: {
-        border: "1px solid #252525",
-        padding: "16px",
-        color: "#252525",
-      },
-      iconTheme: {
-        primary: "#252525",
-        secondary: "#FFFAEE",
-      },
-    });
-  };
-  const notifyError = () => {
-    toast.error("No seleccionaste un talle");
-  };
-  const handleCartClick = (producto: Articulos | null | undefined) => {
+  const handleCartClick = (producto: Articulos | undefined) => {
     if (producto && selectedSize !== " ") {
       const itemToAdd: ArticleOnCart = {
         item: producto,
@@ -57,9 +42,9 @@ export function Product() {
         talle: selectedSize,
       };
       addToCart(itemToAdd);
-      notify(itemToAdd);
+      notify(itemToAdd.item.nombre);
     } else if (selectedSize == " ") {
-      notifyError();
+      notifyENoSelectedTalle();
     }
   };
   useEffect(() => {
@@ -87,7 +72,8 @@ export function Product() {
       .catch((error) => {
         console.error(error);
       });
-  }, [product?.id]);
+    console.log(product?.detalles);
+  }, [product?.id, query]);
   return (
     <>
       {!loading ? (
@@ -265,46 +251,7 @@ export function Product() {
                   </h3>
 
                   <div className="mt-4">
-                    <ul
-                      role="list"
-                      className="list-disc space-y-2 pl-4 text-sm"
-                    >
-                      <li className="text-gray-400">
-                        <span className="text-gray-600">
-                          Cortado y cosido a mano localmente
-                        </span>
-                      </li>
-                      <li className="text-gray-400">
-                        <span className="text-gray-600">
-                          Teñido con nuestros colores patentados
-                        </span>
-                      </li>
-                      <li className="text-gray-400">
-                        <span className="text-gray-600">
-                          Pre-lavado &amp; pre-encogido
-                        </span>
-                      </li>
-                      <li className="text-gray-400">
-                        <span className="text-gray-600">
-                          Algodón ultrasuave al 100%
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-10">
-                  <h2 className="text-sm font-medium text-gray-900">
-                    Detalles
-                  </h2>
-
-                  <div className="mt-4 space-y-6">
-                    <p className="text-sm text-gray-600">
-                      The 6-Pack includes two black, two white, and two heather
-                      gray Basic Tees. Sign up for our subscription service and
-                      be the first to get new, exciting colors, like our
-                      upcoming &quot;Charcoal Gray&quot; limited release.
-                    </p>
+                    <UnorderList product={product?.detalles} />
                   </div>
                 </div>
               </div>

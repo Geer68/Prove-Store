@@ -1,92 +1,100 @@
-import { Fragment, useEffect, useState, useContext } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import proveLogo from "../imgs/PROVElogoN.png"
-import chupete from "../imgs/chupete.jpg"
-import enzo from "../imgs/enzo.jpg"
+import { Fragment, useEffect, useState, useContext } from "react";
+import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import {
+  Bars3Icon,
+  ShoppingBagIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import proveLogo from "../imgs/PROVElogoN.png";
+import chupete from "../imgs/chupete.jpg";
+import enzo from "../imgs/enzo.jpg";
 
-import { Link } from 'react-router-dom'
-import { CartContext } from '@/mineComponents/context'
+import { Link } from "react-router-dom";
+import { CartContext } from "@/contexts/cart";
 
 const navigation = {
   categories: [
     {
-      id: 'ltw',
-      name: 'LTW',
+      id: "ltw",
+      name: "LTW",
       featured: [
         {
-          name: 'Estilo y Minimalismo',
-          href: '#',
+          name: "Estilo y Minimalismo",
+          href: "#",
           imageSrc: chupete,
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+          imageAlt:
+            "Models sitting back to back, wearing Basic Tee in black and bone.",
         },
         {
-          name: 'Save Your Broken <3',
-          href: '#',
+          name: "Save Your Broken <3",
+          href: "#",
           imageSrc: enzo,
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+          imageAlt:
+            "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
         },
       ],
       sections: [
         {
-          id: 'vestir',
-          name: 'Vestir',
+          id: "vestir",
+          name: "Vestir",
           items: [
-            { name: 'Remeras', href: '#' },
-            { name: 'Pantalones', href: '#' },
-            { name: 'Shorts', href: '#' },
-            { name: 'Etc..', href: '#' },
+            { name: "Remeras", href: "#" },
+            { name: "Pantalones", href: "#" },
+            { name: "Shorts", href: "#" },
+            { name: "Etc..", href: "#" },
           ],
         },
       ],
     },
     {
-      id: 'basic-collection',
-      name: 'Basic Collection',
+      id: "basic-collection",
+      name: "Basic Collection",
       featured: [
         {
-          name: 'Ultimos Ingresos',
-          href: '#',
-          imageSrc: 'https://provestoree.com/wp-content/uploads/2022/11/Remera-prove-marron2.jpg',
-          imageAlt: 'Drawstring top with elastic loop closure and textured interior padding.',
+          name: "Ultimos Ingresos",
+          href: "#",
+          imageSrc:
+            "https://provestoree.com/wp-content/uploads/2022/11/Remera-prove-marron2.jpg",
+          imageAlt:
+            "Drawstring top with elastic loop closure and textured interior padding.",
         },
         {
-          name: 'Nuevos Buzos',
-          href: '#',
-          imageSrc: 'https://provestoree.com/wp-content/uploads/2023/06/Buzo-marron1.jpg',
+          name: "Nuevos Buzos",
+          href: "#",
+          imageSrc:
+            "https://provestoree.com/wp-content/uploads/2023/06/Buzo-marron1.jpg",
           imageAlt:
-            'Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.',
+            "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
         },
       ],
       sections: [
         {
-          id: 'Vestir',
-          name: 'Vestir',
+          id: "Vestir",
+          name: "Vestir",
           items: [
-            { name: 'Buzos', href: '#' },
-            { name: 'Remeras', href: '#' },
-            { name: 'Remerones', href: '#' },
-            { name: 'Remeritas', href: '#' },
-            { name: 'Etc..', href: '#' },
+            { name: "Buzos", href: "#" },
+            { name: "Remeras", href: "#" },
+            { name: "Remerones", href: "#" },
+            { name: "Remeritas", href: "#" },
+            { name: "Etc..", href: "#" },
           ],
-        }
+        },
       ],
     },
-    
   ],
   pages: [
-    { name: 'Op1', href: '#' },
-    { name: 'Op2', href: '#' },
+    { name: "Op1", href: "#" },
+    { name: "Op2", href: "#" },
   ],
-}
+};
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export function NavigationBar() {
-  const [open, setOpen] = useState(false)
-  const [cantCart, setCantidad] = useState(0)
+  const [open, setOpen] = useState(false);
+  const [cantCart, setCantidad] = useState(0);
   const cartContext = useContext(CartContext);
   if (cartContext === null) {
     throw new Error("Error al obtener el contexto del carrito");
@@ -95,7 +103,7 @@ export function NavigationBar() {
 
   useEffect(() => {
     setCantidad(showCantidad());
-  },[cart, showCantidad, deleteFromCart])
+  }, [cart, showCantidad, deleteFromCart]);
 
   return (
     <div className="bg-white sticky top-0 z-10">
@@ -146,8 +154,10 @@ export function NavigationBar() {
                           key={category.name}
                           className={({ selected }) =>
                             classNames(
-                              selected ? 'border-yellow-900 text-yellow-900' : 'border-transparent text-gray-900',
-                              'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium'
+                              selected
+                                ? "border-yellow-900 text-yellow-900"
+                                : "border-transparent text-gray-900",
+                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
                             )
                           }
                         >
@@ -158,15 +168,31 @@ export function NavigationBar() {
                   </div>
                   <Tab.Panels as={Fragment}>
                     {navigation.categories.map((category) => (
-                      <Tab.Panel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
+                      <Tab.Panel
+                        key={category.name}
+                        className="space-y-10 px-4 pb-8 pt-10"
+                      >
                         <div className="grid grid-cols-2 gap-x-4">
                           {category.featured.map((item) => (
-                            <div key={item.name} className="group relative text-sm">
+                            <div
+                              key={item.name}
+                              className="group relative text-sm"
+                            >
                               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                <img src={item.imageSrc} alt={item.imageAlt} className="object-cover object-center" />
+                                <img
+                                  src={item.imageSrc}
+                                  alt={item.imageAlt}
+                                  className="object-cover object-center"
+                                />
                               </div>
-                              <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                <span className="absolute inset-0 z-10" aria-hidden="true" />
+                              <a
+                                href={item.href}
+                                className="mt-6 block font-medium text-gray-900"
+                              >
+                                <span
+                                  className="absolute inset-0 z-10"
+                                  aria-hidden="true"
+                                />
                                 {item.name}
                               </a>
                               <p aria-hidden="true" className="mt-1">
@@ -177,7 +203,10 @@ export function NavigationBar() {
                         </div>
                         {category.sections.map((section) => (
                           <div key={section.name}>
-                            <p id={`${category.id}-${section.id}-heading-mobile`} className="font-medium text-gray-900">
+                            <p
+                              id={`${category.id}-${section.id}-heading-mobile`}
+                              className="font-medium text-gray-900"
+                            >
                               {section.name}
                             </p>
                             <ul
@@ -187,7 +216,10 @@ export function NavigationBar() {
                             >
                               {section.items.map((item) => (
                                 <li key={item.name} className="flow-root">
-                                  <a href={item.href} className="-m-2 block p-2 text-gray-500">
+                                  <a
+                                    href={item.href}
+                                    className="-m-2 block p-2 text-gray-500"
+                                  >
                                     {item.name}
                                   </a>
                                 </li>
@@ -203,13 +235,15 @@ export function NavigationBar() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                      <a
+                        href={page.href}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                      >
                         {page.name}
                       </a>
                     </div>
                   ))}
                 </div>
-
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -221,7 +255,10 @@ export function NavigationBar() {
           Disfrutá de envios gratis a partir de $21000
         </p>
 
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav
+          aria-label="Top"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
           <div className="border-b border-gray-200">
             <div className="flex h-16 justify-between items-center">
               <button
@@ -235,8 +272,10 @@ export function NavigationBar() {
               </button>
 
               {/* Logo */}
-              <div className='flex items-center'>
-              <Link to="/"><img src={proveLogo} alt="" className="h-7 m-3" /></Link>
+              <div className="flex items-center">
+                <Link to="/">
+                  <img src={proveLogo} alt="" className="h-7 m-3" />
+                </Link>
               </div>
 
               {/* Flyout menus */}
@@ -250,9 +289,9 @@ export function NavigationBar() {
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? 'border-yellow-900 text-yellow-900'
-                                  : 'border-transparent text-gray-700 hover:text-gray-800',
-                                'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                                  ? "border-yellow-900 text-yellow-900"
+                                  : "border-transparent text-gray-700 hover:text-gray-800",
+                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
                               )}
                             >
                               {category.name}
@@ -270,14 +309,20 @@ export function NavigationBar() {
                           >
                             <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
                               {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                              <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
+                              <div
+                                className="absolute inset-0 top-1/2 bg-white shadow"
+                                aria-hidden="true"
+                              />
 
                               <div className="relative bg-white">
                                 <div className="mx-auto max-w-7xl px-8">
                                   <div className="grid grid-cols-2 gap-x-8 gap-y-10 py-16">
                                     <div className="col-start-2 grid grid-cols-2 gap-x-8">
                                       {category.featured.map((item) => (
-                                        <div key={item.name} className="group relative text-base sm:text-sm">
+                                        <div
+                                          key={item.name}
+                                          className="group relative text-base sm:text-sm"
+                                        >
                                           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
                                             <img
                                               src={item.imageSrc}
@@ -285,11 +330,20 @@ export function NavigationBar() {
                                               className="object-cover object-center"
                                             />
                                           </div>
-                                          <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                            <span className="absolute inset-0 z-10" aria-hidden="true" />
+                                          <a
+                                            href={item.href}
+                                            className="mt-6 block font-medium text-gray-900"
+                                          >
+                                            <span
+                                              className="absolute inset-0 z-10"
+                                              aria-hidden="true"
+                                            />
                                             {item.name}
                                           </a>
-                                          <p aria-hidden="true" className="mt-1">
+                                          <p
+                                            aria-hidden="true"
+                                            className="mt-1"
+                                          >
                                             Shop now
                                           </p>
                                         </div>
@@ -298,7 +352,10 @@ export function NavigationBar() {
                                     <div className="row-start-1 grid grid-cols-3 gap-x-8 gap-y-10 text-sm">
                                       {category.sections.map((section) => (
                                         <div key={section.name}>
-                                          <p id={`${section.name}-heading`} className="font-medium text-gray-900">
+                                          <p
+                                            id={`${section.name}-heading`}
+                                            className="font-medium text-gray-900"
+                                          >
                                             {section.name}
                                           </p>
                                           <ul
@@ -307,8 +364,14 @@ export function NavigationBar() {
                                             className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                           >
                                             {section.items.map((item) => (
-                                              <li key={item.name} className="flex">
-                                                <a href={item.href} className="hover:text-gray-800">
+                                              <li
+                                                key={item.name}
+                                                className="flex"
+                                              >
+                                                <a
+                                                  href={item.href}
+                                                  className="hover:text-gray-800"
+                                                >
                                                   {item.name}
                                                 </a>
                                               </li>
@@ -339,22 +402,23 @@ export function NavigationBar() {
                 </div>
               </Popover.Group>
 
-              <div className="ml-auto flex items-center">
-                </div>
-                <div className="ml-4 flow-root lg:ml-6">
-                  <Link to={"/cart"} className='group -m-2 flex items-center p-2'>
-                       <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cantCart}</span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </Link>
-                </div>
+              <div className="ml-auto flex items-center"></div>
+              <div className="ml-4 flow-root lg:ml-6">
+                <Link to={"/cart"} className="group -m-2 flex items-center p-2">
+                  <ShoppingBagIcon
+                    className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    {cantCart}
+                  </span>
+                  <span className="sr-only">items in cart, view bag</span>
+                </Link>
+              </div>
             </div>
           </div>
         </nav>
       </header>
     </div>
-  )
+  );
 }

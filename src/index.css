@@ -77,11 +77,3 @@
   }
 }
 
-.product {
-  max-width: 300px;
-  border-radius: 15px;
-  padding: 20px;
-  /* @apply shadow-[2px_7px_29px_7px_rgba(0,0,0,0.21)]; */
-  -webkit-box-shadow: 2px 7px 29px 7px rgba(0, 0, 0, 0.11);
-  -moz-box-shadow: 2px 7px 29px 7px rgba(0, 0, 0, 0.21);
-}

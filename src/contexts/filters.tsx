@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 
 type FilterProps = {
-  order: null | false | true;
   collection: string;
   maxPrice: number;
   minPrice: number;
@@ -9,13 +8,7 @@ type FilterProps = {
   category: string;
 };
 
-type FiltersContextProps = {
-  filters: FilterProps;
-  changeFilters: (newFilters: FilterProps) => void;
-};
-
 const initialFilterState: FilterProps = {
-  order: null,
   collection: "",
   maxPrice: 0,
   minPrice: 0,
@@ -23,9 +16,12 @@ const initialFilterState: FilterProps = {
   category: "",
 };
 
-export const FiltersContext = createContext<FiltersContextProps | undefined>(
-  undefined
-);
+export const FiltersContext = createContext({
+  filters: initialFilterState,
+  searchFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  setFilter: (newFilter: FilterProps) => {},
+  changeFilters: (newFilters: FilterProps) => {},
+});
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const [filters, setFilter] = useState<FilterProps>(initialFilterState);
 
@@ -34,8 +30,15 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
     setFilter(newFilters);
   };
 
+  const searchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFilter({ ...filters, search: value });
+  };
+
   return (
-    <FiltersContext.Provider value={{ filters, changeFilters }}>
+    <FiltersContext.Provider
+      value={{ filters, changeFilters, setFilter, searchFilter }}
+    >
       {children}
     </FiltersContext.Provider>
   );

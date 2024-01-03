@@ -4,8 +4,8 @@ import { Product } from "./pages/Product";
 import { Cart } from "./pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { NavigationBar } from "./mineComponents/NavigationBar";
-import { CartContext } from '@/mineComponents/context'
+import { NavigationBar } from "./components/NavigationBar";
+import { CartContext } from "@/contexts/cart";
 import { AllProducts } from "./pages/AllProducts";
 import { Page404 } from "./pages/Page404";
 type Route = {
@@ -33,7 +33,7 @@ const routes: Route[] = [
   {
     path: "*",
     Component: Page404,
-  }
+  },
 ];
 
 function App() {
@@ -44,16 +44,14 @@ function App() {
   const { getLocalStorageCarrito } = cartContext;
   useEffect(() => {
     getLocalStorageCarrito();
-  }, [])
+  }, []);
   return (
     <>
-      <BrowserRouter> 
-      <Toaster/>
-      <NavigationBar/>
+      <BrowserRouter>
+        <Toaster />
+        <NavigationBar />
         <Routes>
-          <Route path="*"
-            element={<Page404 />}
-          />
+          <Route path="*" element={<Page404 />} />
           {routes.map((route) => (
             <Route
               key={route.path}
@@ -67,5 +65,4 @@ function App() {
   );
 }
 
-
-export default App
+export default App;

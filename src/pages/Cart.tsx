@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { CartContext } from "@/mineComponents/context";
+import { CartContext } from "@/contexts/cart";
 import { Button } from "@/components/ui/button";
-import { CartProduct } from "@/mineComponents/CartProduct";
-import { IpContext } from "../mineComponents/context";
+import { CartProduct } from "@/components/CartProduct";
+import { IpContext } from "../contexts/ip";
 import numeral from "numeral";
 import { getPriceDelivery, checkCupon } from "../../logic/configs";
 import toast from "react-hot-toast";
@@ -22,7 +22,6 @@ export function Cart() {
   if (!ipContext) {
     throw new Error("Error al obtener el contexto del IP");
   }
-  // const { ip, setNewIP } = ipContext;
   const checkLocation = async () => {
     try {
       const price = await getPriceDelivery();
@@ -37,9 +36,9 @@ export function Cart() {
   const handleCuponClick = async () => {
     const cupon = document.getElementById("cuponInput") as HTMLInputElement;
     console.log(cupon.value);
-    if(cupon.value.length === 0) {
+    if (cupon.value.length === 0) {
       toast.error("No ingresaste un cupón");
-      return
+      return;
     }
     const response = await checkCupon(String(cupon.value).toUpperCase());
     if (!response) {
@@ -48,13 +47,13 @@ export function Cart() {
     }
     setApliedCupon(response);
     apliedCupon?.type === 1 && setTotalPrice(totalPrice - apliedCupon?.m_neto);
-    apliedCupon?.type === 2 && setTotalPrice(totalPrice * (1 - (apliedCupon?.m_porcent || 0) / 100));
+    apliedCupon?.type === 2 &&
+      setTotalPrice(totalPrice * (1 - (apliedCupon?.m_porcent || 0) / 100));
   };
 
   useEffect(() => {
     checkLocation();
     setTotalPrice(totalArticlePrice() + deliveryPrice);
-    
   }, [cart, deliveryPrice, totalArticlePrice]);
 
   return (
@@ -138,7 +137,9 @@ export function Cart() {
                       Subtotal
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      <p>{numeral(totalPrice-deliveryPrice).format("$0,0")}</p>
+                      <p>
+                        {numeral(totalPrice - deliveryPrice).format("$0,0")}
+                      </p>
                     </div>
                   </div>
                   {/* <div className="flex justify-between pt-4 border-b">
@@ -169,7 +170,11 @@ export function Cart() {
                       Envio
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      <p>{deliveryPrice == 0 ? "¡Gratis!" : numeral(deliveryPrice).format("$0,0")}</p>
+                      <p>
+                        {deliveryPrice == 0
+                          ? "¡Gratis!"
+                          : numeral(deliveryPrice).format("$0,0")}
+                      </p>
                     </div>
                   </div>
                   <div className="flex justify-between pt-4 border-b">
@@ -180,7 +185,7 @@ export function Cart() {
                       <p>{numeral(totalPrice).format("$0,0")}</p>
                     </div>
                   </div>
-                  
+
                   <Button className="w-full h-12 mt-10 text-lg">
                     Ir a pagar
                   </Button>

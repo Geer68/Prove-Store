@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getarticles } from "../../logic/configs";
-import { ProductoCard } from "../mineComponents/ProductoCard";
+import { ProductoCard } from "../components/ProductoCard";
 import { Link } from "react-router-dom";
 import { Articulos } from "../../logic/types";
 import portada1 from "../imgs/ambos.jpg";

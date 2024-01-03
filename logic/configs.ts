@@ -25,6 +25,7 @@ export async function getarticles(): Promise<Articulos[]> {
           img: item.img,
           nombre: item.nombre,
           descripcion: item.descripcion,
+          detalles: item.detalles,
         };
       });
       return articles;
@@ -109,7 +110,6 @@ export async function getPriceDelivery(): Promise<number> {
     },
   };
   const response = await axios.request(options);
-  console.log("aa");
   return response.data?.paqarClasico?.aDomicilio || 0;
 }
 

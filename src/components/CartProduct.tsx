@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { ArticleOnCart } from "logic/types";
-import { CartContext } from "./context";
+import { CartContext } from "../contexts/cart";
 import { Link } from "react-router-dom";
 import numeral from "numeral";
 

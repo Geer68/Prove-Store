@@ -10,6 +10,7 @@ export type Articulos = {
   precio: number;
   img: string;
   descripcion: string;
+  detalles: string;
 };
 export type ArticleOnCart = {
   item: Articulos;
