@@ -125,3 +125,20 @@ export async function checkCupon(cuponInput: string): Promise<Cupon> {
   const response = await axios.request(options);
   return response.data[0] || null;
 }
+
+export async function mp(productId: number | undefined, size: string) {
+  if (!productId) return;
+  try {
+    const response = await axios.post(
+      "https://mp-node.vercel.app/create-order",
+      {
+        productId: productId,
+        size: size,
+      }
+    );
+    window.open(response.data, "_blank");
+    console.log(response);
+  } catch (error) {
+    console.error("Error creating order:", error);
+  }
+}

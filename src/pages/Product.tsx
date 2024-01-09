@@ -1,5 +1,5 @@
 import { Articulos, Stock, ArticleOnCart } from "logic/types";
-import { getStockTalle, getProductUrl } from "../../logic/configs";
+import { getStockTalle, getProductUrl, mp } from "../../logic/configs";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
@@ -223,7 +223,9 @@ export function Product() {
                   </fieldset>
                 </div>
                 <div className="grid gap-4 pt-10">
-                  <Button>Comprar</Button>
+                  <Button onClick={() => mp(product?.id, selectedSize)}>
+                    Comprar
+                  </Button>
                   <Button
                     variant={"secondary"}
                     onClick={() => handleCartClick(product)}

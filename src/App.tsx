@@ -8,6 +8,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import { CartContext } from "@/contexts/cart";
 import { AllProducts } from "./pages/AllProducts";
 import { Page404 } from "./pages/Page404";
+import ContactSection from "./pages/ContactSection";
 type Route = {
   path: string;
   Component: React.ComponentType<any>;
@@ -33,6 +34,10 @@ const routes: Route[] = [
   {
     path: "*",
     Component: Page404,
+  },
+  {
+    path: "/contactUS",
+    Component: ContactSection,
   },
 ];
 
