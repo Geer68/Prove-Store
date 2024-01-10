@@ -1,5 +1,7 @@
 import { urls, Articulos, Stock, IpInfo, Cupon } from "./types";
 import axios from "axios";
+import { notifyENoSelectedTalle } from "../src/hooks/toast";
+
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]> {
@@ -127,7 +129,12 @@ export async function checkCupon(cuponInput: string): Promise<Cupon> {
 }
 
 export async function mp(productId: number | undefined, size: string) {
+  console.log(productId, size);
   if (!productId) return;
+  if (size === " ") {
+    notifyENoSelectedTalle();
+    return;
+  }
   try {
     const response = await axios.post(
       "https://mp-node.vercel.app/create-order",
