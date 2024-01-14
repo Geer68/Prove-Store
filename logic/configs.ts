@@ -1,71 +1,54 @@
+import toast from "react-hot-toast";
 import { urls, Articulos, Stock, IpInfo, Cupon } from "./types";
 import axios from "axios";
-import { notifyENoSelectedTalle } from "../src/hooks/toast";
 
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]> {
-  return fetch(urls.getArticulos, {
+  const response = await axios.get(urls.getArticulos, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       apikey: `${apiKey}`,
     },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Error al obtener los datos");
-      }
-      return res.json();
-    })
-    .then((data) => {
-      const articles: Array<Articulos> = data.map((item: Articulos) => {
-        return {
-          id: item.id,
-          category: item.category,
-          url: item.url,
-          precio: item.precio,
-          img: item.img,
-          nombre: item.nombre,
-          descripcion: item.descripcion,
-          detalles: item.detalles,
-        };
-      });
-      return articles;
-    })
-    .catch((err) => {
-      throw err;
-    });
+  });
+
+  if (!response.data) {
+    throw new Error("Error al obtener los datos");
+  }
+
+  const articles: Array<Articulos> = response.data.map((item: Articulos) => ({
+    id: item.id,
+    category: item.category,
+    url: item.url,
+    precio: item.precio,
+    img: item.img,
+    nombre: item.nombre,
+    descripcion: item.descripcion,
+    detalles: item.detalles,
+  }));
+
+  return articles;
 }
-export const EVENTS = {
-  pushtate: "pushState",
-  popstate: "popState",
-};
 export function completeUrlProduct(url: string | undefined): string {
-  const completedUrl = `https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?url=eq.${url}&select=*`;
-  return completedUrl;
+  return `https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?url=eq.${url}&select=*`;
 }
+
 export async function getProductUrl(
   url: string | undefined
 ): Promise<Articulos> {
   const modUrl = completeUrlProduct(url);
-  return fetch(modUrl, {
+  const response = await axios.get(modUrl, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       apikey: `${apiKey}`,
     },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Error al obtener los datos");
-      }
-      return res.json();
-    })
-    .then((data) => {
-      return data[0] || null;
-    })
-    .catch((err) => {
-      throw err;
-    });
+  });
+
+  if (!response.data || response.data.length === 0) {
+    throw new Error("Error al obtener los datos");
+  }
+
+  return response.data[0];
 }
 export function completeUrlStock(id: number): string {
   return `https://unfnzrryujymfledkybt.supabase.co/rest/v1/stocks?id=eq.${id}&select=*`;
@@ -114,38 +97,17 @@ export async function getPriceDelivery(): Promise<number> {
   const response = await axios.request(options);
   return response.data?.paqarClasico?.aDomicilio || 0;
 }
-
-export async function checkCupon(cuponInput: string): Promise<Cupon> {
-  const options = {
-    method: "GET",
-    url: `https://unfnzrryujymfledkybt.supabase.co/rest/v1/cupones?cupon=eq.${cuponInput}&select=*`,
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      apikey: `${apiKey}`,
-    },
+export async function checkCupon(cuponInput: string): Promise<Cupon | null> {
+  const response = await axios.post("https://mp-node.vercel.app/check-cupon", {
+    cupon: cuponInput,
+  });
+  if (response.data.error) {
+    toast.error("Cupon no valido");
+    return null;
+  }
+  const cupon = {
+    type: response.data.type,
+    discount: response.data.m_porcent || response.data.m_neto,
   };
-  const response = await axios.request(options);
-  return response.data[0] || null;
-}
-
-export async function mp(productId: number | undefined, size: string) {
-  console.log(productId, size);
-  if (!productId) return;
-  if (size === " ") {
-    notifyENoSelectedTalle();
-    return;
-  }
-  try {
-    const response = await axios.post(
-      "https://mp-node.vercel.app/create-order",
-      {
-        productId: productId,
-        size: size,
-      }
-    );
-    window.open(response.data, "_blank");
-    console.log(response);
-  } catch (error) {
-    console.error("Error creating order:", error);
-  }
+  return cupon;
 }

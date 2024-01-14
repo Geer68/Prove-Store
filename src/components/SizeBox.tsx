@@ -1,7 +1,17 @@
-export function SizeBox({ talle, stock, selectedSize, onSelect }: { talle: string; stock: number, selectedSize: string, onSelect: (talle: string) => void }) {
+export function SizeBox({
+  talle,
+  stock,
+  selectedSize,
+  onSelect,
+}: {
+  talle: string;
+  stock: number;
+  selectedSize: string;
+  onSelect: (talle: string) => void;
+}) {
   const handdleClick = () => {
     onSelect(talle);
-  }
+  };
   const isSelected = selectedSize === talle;
 
   return (
@@ -38,10 +48,16 @@ export function SizeBox({ talle, stock, selectedSize, onSelect }: { talle: strin
           </span>
         </label>
       ) : (
-        <label 
-        onClick={handdleClick}
-        className={isSelected ? 'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm border-yellow-900' : 'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm'}
-        >  <input
+        <label
+          onClick={handdleClick}
+          className={
+            isSelected
+              ? "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm border-yellow-900"
+              : "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 cursor-pointer bg-white text-gray-900 shadow-sm"
+          }
+        >
+          {" "}
+          <input
             type="radio"
             name="size-choice"
             value={talle}

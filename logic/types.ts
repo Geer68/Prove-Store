@@ -32,9 +32,6 @@ export interface IpInfo {
 }
 
 export interface Cupon {
-  cupon: string;
-  m_porcent: number;
-  m_neto: number;
-  restantes: number;
   type: number;
+  discount: number;
 }

@@ -1,36 +1,31 @@
 import { Articulos, Stock, ArticleOnCart } from "logic/types";
-import { getStockTalle, getProductUrl, mp } from "../../logic/configs";
+import { getStockTalle, getProductUrl } from "../../logic/configs";
+import { mpIndividual } from "../../logic/mercadoPago";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  // DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import numeral from "numeral";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { SizeBox } from "../components/SizeBox";
-import { CartContext } from "../contexts/cart";
 import { useParams } from "react-router-dom";
 import { SkeletonProductPage } from "@/components/SkeletonProductPage";
 import { UnorderList } from "@/components/UnorderLi";
 import { notify, notifyENoSelectedTalle } from "../hooks/toast";
+import { useCart } from "@/hooks/useCart";
+import { SizeTable } from "@/components/SizeTable";
+
 export function Product() {
   const [product, setProduct] = useState<Articulos>();
   const [loading, setLoading] = useState(true);
   const { query } = useParams();
   const [stockArray, setStockArray] = useState<Stock[]>([]);
   const [selectedSize, setSelectedSize] = useState(" ");
-  const cartContext = useContext(CartContext);
-  if (cartContext === null) {
-    throw new Error("Error al obtener el contexto del carrito");
-  }
-  const { addToCart } = cartContext;
+  const { addToCart } = useCart();
   const handleTalleClick = (size: string) => {
     setSelectedSize(size);
   };
@@ -72,7 +67,6 @@ export function Product() {
       .catch((error) => {
         console.error(error);
       });
-    console.log(product?.detalles);
   }, [product?.id, query]);
   return (
     <>
@@ -130,57 +124,6 @@ export function Product() {
                   {numeral(product?.precio).format("$0,0")}
                 </p>
 
-                {/* <!-- Colors --> */}
-                <div className="mt-6">
-                  <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">Choose a color</legend>
-                    <div className="flex items-center space-x-3">
-                      {/* <!--
-                  Active and Checked: "ring ring-offset-1"
-                  Not Active and Checked: "ring-2"
-                --> */}
-                      <label className="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ring-gray-900">
-                        <input
-                          type="radio"
-                          name="color-choice"
-                          value="Black"
-                          className="sr-only"
-                          aria-labelledby="color-choice-2-label"
-                        />
-                        <span id="color-choice-2-label" className="sr-only">
-                          Black
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="h-8 w-8 bg-slate-900 rounded-full border border-black border-opacity-10"
-                        ></span>
-                      </label>
-                      {/* <!--
-                  Active and Checked: "ring ring-offset-1"
-                  Not Active and Checked: "ring-2"
-                --> */}
-                      <label className="ring-1 ring-yellow-950 ring-offset-1 relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none ">
-                        <input
-                          type="radio"
-                          name="color-choice"
-                          value="Black"
-                          className="sr-only"
-                          aria-labelledby="color-choice-2-label"
-                        />
-                        <span id="color-choice-2-label" className="sr-only">
-                          Black
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="h-8 w-8 bg-orange-900 rounded-full border border-black border-opacity-10"
-                        ></span>
-                      </label>
-                    </div>
-                  </fieldset>
-                </div>
-
                 {/* <!-- Sizes --> */}
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
@@ -190,14 +133,41 @@ export function Product() {
                         Guía de talles
                       </DrawerTrigger>
                       <DrawerContent>
-                        <DrawerHeader>
-                          <DrawerTitle>Fotito de talles</DrawerTitle>
-                          <DrawerDescription>
-                            Aun no lo termino
-                          </DrawerDescription>
-                        </DrawerHeader>
+                        <SizeTable />
                         <DrawerFooter>
-                          {/* <DrawerClose>Cancel</DrawerClose> */}
+                          <section className="grid grid-cols-2">
+                            <img
+                              className="mx-auto h-auto w-auto"
+                              src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/WAIST_CIRCUMFERENCE_FROM_MALE-1.png"
+                              alt="cintura"
+                            />
+                            <aside className="m-5">
+                              <p className="text-l font-semibold">
+                                Contorno de la cintura
+                              </p>
+                              <p className="text-sm mt-2">
+                                Juntá los pies. Después, medí la parte más
+                                estrecha de tu cuerpo entre el pecho y la
+                                cadera.
+                              </p>
+                            </aside>
+                          </section>
+                          <section className="grid grid-cols-2">
+                            <img
+                              className="mx-auto h-auto w-auto"
+                              src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/HIP_CIRCUMFERENCE_FROM_MALE-1.png"
+                              alt="cintura"
+                            />
+                            <aside className="m-5">
+                              <p className="text-l font-semibold">
+                                Contorno de la cadera
+                              </p>
+                              <p className="text-sm mt-2">
+                                Junta los pies. Después, medí la parte más ancha
+                                de tu cadera.
+                              </p>
+                            </aside>
+                          </section>
                         </DrawerFooter>
                       </DrawerContent>
                     </Drawer>
@@ -223,7 +193,9 @@ export function Product() {
                   </fieldset>
                 </div>
                 <div className="grid gap-4 pt-10">
-                  <Button onClick={() => mp(product?.id, selectedSize)}>
+                  <Button
+                    onClick={() => mpIndividual(product?.id, selectedSize)}
+                  >
                     Comprar
                   </Button>
                   <Button

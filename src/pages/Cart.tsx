@@ -1,27 +1,20 @@
-import { useEffect, useState, useContext } from "react";
-import { CartContext } from "@/contexts/cart";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { CartProduct } from "@/components/CartProduct";
-import { IpContext } from "../contexts/ip";
 import numeral from "numeral";
 import { getPriceDelivery, checkCupon } from "../../logic/configs";
 import toast from "react-hot-toast";
 import { Cupon } from "logic/types";
+import { useCart } from "@/hooks/useCart";
+import { mpVarios } from "../../logic/mercadoPago";
 
 export function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [apliedCupon, setApliedCupon] = useState<Cupon>();
-  const cartContext = useContext(CartContext);
-  if (cartContext === null) {
-    throw new Error("Error al obtener el contexto del carrito");
-  }
-  const { cart, totalArticlePrice } = cartContext;
+  const { cart, totalArticlePrice, clearCart } = useCart();
+  const cuponInput = useRef<HTMLInputElement>(null);
 
-  const ipContext = useContext(IpContext);
-  if (!ipContext) {
-    throw new Error("Error al obtener el contexto del IP");
-  }
   const checkLocation = async () => {
     try {
       const price = await getPriceDelivery();
@@ -33,34 +26,44 @@ export function Cart() {
     }
   };
 
+  const handleMercadoPago = async () => {
+    mpVarios(cart);
+  };
+
   const handleCuponClick = async () => {
-    const cupon = document.getElementById("cuponInput") as HTMLInputElement;
-    console.log(cupon.value);
-    if (cupon.value.length === 0) {
+    const cupon = cuponInput.current?.value;
+    if (cupon?.length === 0) {
       toast.error("No ingresaste un cupón");
       return;
     }
-    const response = await checkCupon(String(cupon.value).toUpperCase());
+    const response = await checkCupon(String(cupon).toUpperCase());
+
     if (!response) {
       toast.error("Cupon no valido");
       return;
     }
+
     setApliedCupon(response);
-    apliedCupon?.type === 1 && setTotalPrice(totalPrice - apliedCupon?.m_neto);
-    apliedCupon?.type === 2 &&
-      setTotalPrice(totalPrice * (1 - (apliedCupon?.m_porcent || 0) / 100));
+    apliedCupon?.type === 2
+      ? setTotalPrice(totalPrice - apliedCupon?.discount)
+      : setTotalPrice(totalPrice * (1 - (apliedCupon?.discount || 0) / 100));
   };
 
   useEffect(() => {
     checkLocation();
     setTotalPrice(totalArticlePrice() + deliveryPrice);
-  }, [cart, deliveryPrice, totalArticlePrice]);
+  }, [cart, deliveryPrice, totalArticlePrice, setTotalPrice]);
 
   return (
     <>
       <div className="flex justify-center">
         <div className="flex flex-col w-full p-8 text-gray-800 bg-white md:w-4/5 lg:w-4/5">
           <div className="flex-1">
+            <header className="flex justify-center mb-6">
+              <Button onClick={clearCart} variant={"destructive"}>
+                Vaciar carrito
+              </Button>
+            </header>
             <table className="w-full text-sm lg:text-base" cellSpacing={0}>
               <thead>
                 <tr className="h-12 uppercase">
@@ -85,7 +88,7 @@ export function Cart() {
               </tbody>
             </table>
             <hr className="pb-6 mt-6" />
-            <div className="my-4 mt-6 -mx-2 lg:flex">
+            <div className="my-4 -mx-2 lg:flex">
               <div className="lg:px-2 lg:w-1/2">
                 <div className="p-2 bg-gray-100 rounded-lg">
                   <h1 className="ml-2 font-bold uppercase">Cupón</h1>
@@ -97,6 +100,7 @@ export function Cart() {
                         type="cupon"
                         name="code"
                         id="cuponInput"
+                        ref={cuponInput}
                         placeholder="I <3 PROVE"
                         className="w-full outline-none appearance-none focus:outline-none active:outline-none"
                       />
@@ -186,7 +190,10 @@ export function Cart() {
                     </div>
                   </div>
 
-                  <Button className="w-full h-12 mt-10 text-lg">
+                  <Button
+                    className="w-full h-12 mt-10 text-lg"
+                    onClick={handleMercadoPago}
+                  >
                     Ir a pagar
                   </Button>
                 </div>

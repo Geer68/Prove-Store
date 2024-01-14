@@ -1,20 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { useContext } from "react";
 import { ArticleOnCart } from "logic/types";
-import { CartContext } from "../contexts/cart";
 import { Link } from "react-router-dom";
 import numeral from "numeral";
+import { useCart } from "@/hooks/useCart";
 
 export function CartProduct({
   product,
 }: {
   product: ArticleOnCart;
 }): JSX.Element {
-  const cartContext = useContext(CartContext);
-  if (cartContext === null) {
-    throw new Error("Error al obtener el contexto del carrito");
-  }
-  const { deleteFromCart, quitarCantidad, addToCart } = cartContext;
+  const { deleteFromCart, quitarCantidad, addToCart } = useCart();
 
   const talle = product.talle || "";
   const clickDeleteArticle = (product: ArticleOnCart) => {

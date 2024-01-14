@@ -11,6 +11,7 @@ import enzo from "../imgs/enzo.jpg";
 
 import { Link } from "react-router-dom";
 import { CartContext } from "@/contexts/cart";
+import { Banner } from "./Banner";
 
 const navigation = {
   categories: [
@@ -39,9 +40,9 @@ const navigation = {
           name: "Vestir",
           items: [
             { name: "Remeras", href: "#" },
-            { name: "Pantalones", href: "#" },
-            { name: "Shorts", href: "#" },
-            { name: "Etc..", href: "#" },
+            // { name: "Pantalones", href: "#" },
+            // { name: "Shorts", href: "#" },
+            // { name: "Etc..", href: "#" },
           ],
         },
       ],
@@ -52,15 +53,15 @@ const navigation = {
       featured: [
         {
           name: "Ultimos Ingresos",
-          href: "#",
+          href: "/product/remera-logo-prove-marron",
           imageSrc:
             "https://provestoree.com/wp-content/uploads/2022/11/Remera-prove-marron2.jpg",
           imageAlt:
             "Drawstring top with elastic loop closure and textured interior padding.",
         },
         {
-          name: "Nuevos Buzos",
-          href: "#",
+          name: "Buzo Prove Marron",
+          href: "/product/buzo-prove-marron",
           imageSrc:
             "https://provestoree.com/wp-content/uploads/2023/06/Buzo-marron1.jpg",
           imageAlt:
@@ -74,17 +75,14 @@ const navigation = {
           items: [
             { name: "Buzos", href: "#" },
             { name: "Remeras", href: "#" },
-            { name: "Remerones", href: "#" },
-            { name: "Remeritas", href: "#" },
-            { name: "Etc..", href: "#" },
           ],
         },
       ],
     },
   ],
   pages: [
-    { name: "Op1", href: "#" },
-    { name: "Op2", href: "#" },
+    // { name: "Op1", href: "#" },
+    // { name: "Op2", href: "#" },
   ],
 };
 
@@ -232,8 +230,8 @@ export function NavigationBar() {
                   </Tab.Panels>
                 </Tab.Group>
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {navigation.pages.map((page) => (
+                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                  {/* {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <a
                         href={page.href}
@@ -241,9 +239,9 @@ export function NavigationBar() {
                       >
                         {page.name}
                       </a>
-                    </div>
-                  ))}
-                </div>
+                    </div> */}
+                {/* ))} */}
+                {/* </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -251,9 +249,7 @@ export function NavigationBar() {
       </Transition.Root>
 
       <header className="relative bg-white">
-        <p className="flex h-10 items-center justify-center bg-yellow-900 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Disfrutá de envios gratis a partir de $21000
-        </p>
+        <Banner />
 
         <nav
           aria-label="Top"
@@ -390,7 +386,7 @@ export function NavigationBar() {
                     </Popover>
                   ))}
 
-                  {navigation.pages.map((page) => (
+                  {/* {navigation.pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
@@ -398,7 +394,7 @@ export function NavigationBar() {
                     >
                       {page.name}
                     </a>
-                  ))}
+                  ))} */}
                 </div>
               </Popover.Group>
 

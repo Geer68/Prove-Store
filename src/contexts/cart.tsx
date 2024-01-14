@@ -35,6 +35,7 @@ export function CartProvider({ children }: { children: JSX.Element }) {
         return item;
       });
 
+      localStorage.setItem("cart", JSON.stringify(newCart));
       setCart(newCart);
     } else {
       setCart([...cart, productToAdd]);
@@ -55,7 +56,9 @@ export function CartProvider({ children }: { children: JSX.Element }) {
     );
   };
   const clearCart = () => {
+    console.log("aa");
     setCart([]);
+    localStorage.setItem("cart", JSON.stringify([]));
   };
   const deleteFromCart = (product: ArticleOnCart) => {
     const newCart = cart.filter(
