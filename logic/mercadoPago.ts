@@ -1,4 +1,4 @@
-import { notifyENoSelectedTalle } from "../src/hooks/toast";
+import { notifyError } from "../src/hooks/toast";
 import { ArticleOnCart } from "../logic/types";
 import axios from "axios";
 
@@ -8,7 +8,7 @@ export async function mpIndividual(
 ) {
   if (!productId) return;
   if (size === " ") {
-    notifyENoSelectedTalle();
+    notifyError("No seleccionaste un talle");
     return;
   }
   try {

@@ -1,22 +1,30 @@
 import { useContext } from "react";
 import { FiltersContext } from "@/contexts/filters";
-import { Articulos } from "logic/types";
 
 export function useFilters() {
-  const { filters, setFilter, changeFilters, searchFilter } =
-    useContext(FiltersContext);
+  const {
+    filters,
+    filteredProducts,
+    setFilteredProducts,
+    setFilter,
+    changeFilters,
+    searchFilter,
+    collectionFilters,
+    categoryFilter,
+    minPriceFilter,
+    maxPriceFilter,
+  } = useContext(FiltersContext);
 
-  const filterProducts = (products: Articulos[]) => {
-    if (filters.search !== "") {
-      return products.filter((product) => {
-        return product.nombre
-          .toLowerCase()
-          .includes(filters.search.toLowerCase());
-      });
-    } else {
-      return products;
-    }
+  return {
+    filters,
+    filteredProducts,
+    setFilteredProducts,
+    setFilter,
+    changeFilters,
+    searchFilter,
+    categoryFilter,
+    collectionFilters,
+    minPriceFilter,
+    maxPriceFilter,
   };
-
-  return { filters, filterProducts, setFilter, changeFilters, searchFilter };
 }

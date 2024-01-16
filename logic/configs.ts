@@ -1,17 +1,12 @@
 import toast from "react-hot-toast";
 import { urls, Articulos, Stock, IpInfo, Cupon } from "./types";
 import axios from "axios";
+import { FilterProps } from "@/contexts/filters";
 
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]> {
-  const response = await axios.get(urls.getArticulos, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      apikey: `${apiKey}`,
-    },
-  });
-
+  const response = await axios.get(urls.getProducts);
   if (!response.data) {
     throw new Error("Error al obtener los datos");
   }
@@ -25,6 +20,7 @@ export async function getarticles(): Promise<Articulos[]> {
     nombre: item.nombre,
     descripcion: item.descripcion,
     detalles: item.detalles,
+    coleccion: item.coleccion,
   }));
 
   return articles;
@@ -80,7 +76,7 @@ export async function getPriceDelivery(): Promise<number> {
   }
   const options = {
     method: "GET",
-    url: "https://correo-argentino1.p.rapidapi.com/calcularPrecio",
+    url: urls.correoRapidAPI,
     params: {
       cpOrigen: "5500",
       cpDestino: ip.postal,
@@ -98,7 +94,7 @@ export async function getPriceDelivery(): Promise<number> {
   return response.data?.paqarClasico?.aDomicilio || 0;
 }
 export async function checkCupon(cuponInput: string): Promise<Cupon | null> {
-  const response = await axios.post("https://mp-node.vercel.app/check-cupon", {
+  const response = await axios.post(urls.checkCupon, {
     cupon: cuponInput,
   });
   if (response.data.error) {
@@ -110,4 +106,27 @@ export async function checkCupon(cuponInput: string): Promise<Cupon | null> {
     discount: response.data.m_porcent || response.data.m_neto,
   };
   return cupon;
+}
+
+export async function getFilterProducts(filters: FilterProps) {
+  console.log(filters);
+  const response = await axios.post(urls.getFilteredProducts, {
+    filters: {
+      category: filters.category,
+      maxPrice: filters.maxPrice,
+      minPrice: filters.minPrice,
+      search: filters.search,
+      colection: filters.collection,
+    },
+  });
+  console.log(response.data);
+  if (response.data.error) {
+    return null;
+  }
+  return response.data;
+}
+
+export async function clearFilters() {
+  const response = await axios.get(urls.clearFilters);
+  return response.data;
 }

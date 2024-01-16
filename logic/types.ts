@@ -1,6 +1,9 @@
 export const urls = {
-  getArticulos:
-    "https://unfnzrryujymfledkybt.supabase.co/rest/v1/products?select=*",
+  getProducts: "https://mp-node.vercel.app/get-allProducts",
+  correoRapidAPI: "https://correo-argentino1.p.rapidapi.com/calcularPrecio",
+  checkCupon: "https://mp-node.vercel.app/check-cupon",
+  getFilteredProducts: "https://mp-node.vercel.app/filter-products",
+  clearFilters: "https://mp-node.vercel.app/clear-filters",
 };
 export type Articulos = {
   id: number;
@@ -11,6 +14,7 @@ export type Articulos = {
   img: string;
   descripcion: string;
   detalles: string;
+  coleccion: string;
 };
 export type ArticleOnCart = {
   item: Articulos;

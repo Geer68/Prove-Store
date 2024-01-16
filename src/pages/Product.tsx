@@ -15,7 +15,7 @@ import { SizeBox } from "../components/SizeBox";
 import { useParams } from "react-router-dom";
 import { SkeletonProductPage } from "@/components/SkeletonProductPage";
 import { UnorderList } from "@/components/UnorderLi";
-import { notify, notifyENoSelectedTalle } from "../hooks/toast";
+import { notify, notifyError } from "../hooks/toast";
 import { useCart } from "@/hooks/useCart";
 import { SizeTable } from "@/components/SizeTable";
 
@@ -39,7 +39,7 @@ export function Product() {
       addToCart(itemToAdd);
       notify(itemToAdd.item.nombre);
     } else if (selectedSize == " ") {
-      notifyENoSelectedTalle();
+      notifyError("No seleccionaste un talle");
     }
   };
   useEffect(() => {

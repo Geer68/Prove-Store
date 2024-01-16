@@ -1,6 +1,7 @@
+import { Articulos } from "logic/types";
 import { createContext, useState } from "react";
 
-type FilterProps = {
+export type FilterProps = {
   collection: string;
   maxPrice: number;
   minPrice: number;
@@ -8,25 +9,32 @@ type FilterProps = {
   category: string;
 };
 
-const initialFilterState: FilterProps = {
-  collection: "",
+const initialFilterState = {
+  collection: "Todas",
   maxPrice: 0,
   minPrice: 0,
   search: "",
-  category: "",
+  category: "Todas",
 };
 
 export const FiltersContext = createContext({
   filters: initialFilterState,
+  filteredProducts: [] as Articulos[] | null,
+  setFilteredProducts: (products: Articulos[] | null) => {},
   searchFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
   setFilter: (newFilter: FilterProps) => {},
   changeFilters: (newFilters: FilterProps) => {},
+  categoryFilter: (e: string) => {},
+  minPriceFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  maxPriceFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
+  collectionFilters: (e: string) => {},
 });
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const [filters, setFilter] = useState<FilterProps>(initialFilterState);
-
+  const [filteredProducts, setFilteredProducts] = useState<Articulos[] | null>(
+    []
+  );
   const changeFilters = (newFilters: FilterProps) => {
-    console.log(newFilters);
     setFilter(newFilters);
   };
 
@@ -35,9 +43,41 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
     setFilter({ ...filters, search: value });
   };
 
+  const categoryFilter = (e: string) => {
+    console.log(e);
+    setFilter({ ...filters, category: e });
+  };
+
+  const collectionFilters = (e: string) => {
+    setFilter({ ...filters, collection: e });
+  };
+
+  const minPriceFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    console.log(value);
+    setFilter({ ...filters, minPrice: parseInt(value) });
+  };
+
+  const maxPriceFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    console.log(value);
+    setFilter({ ...filters, maxPrice: parseInt(value) });
+  };
+
   return (
     <FiltersContext.Provider
-      value={{ filters, changeFilters, setFilter, searchFilter }}
+      value={{
+        filters,
+        filteredProducts,
+        setFilteredProducts,
+        changeFilters,
+        setFilter,
+        searchFilter,
+        categoryFilter,
+        collectionFilters,
+        minPriceFilter,
+        maxPriceFilter,
+      }}
     >
       {children}
     </FiltersContext.Provider>
