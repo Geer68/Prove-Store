@@ -2,14 +2,15 @@ import { ProductoCard } from "@/components/ProductoCard";
 import { Input } from "@/components/ui/input";
 import { DrawerFilters } from "@/components/DrawerFilters";
 import { useFilters } from "@/hooks/useFilters";
-import { getarticles } from "../../logic/configs";
+import { getWidth, getarticles } from "../../logic/configs";
 import { useEffect, useState } from "react";
 import { Articulos } from "logic/types";
 import { NoMatchesSearch } from "@/components/NoMatchesSearch";
+import Skeleton from "react-loading-skeleton";
 
 export function AllProducts() {
   const { searchFilter } = useFilters();
-  const [articles, setArticles] = useState<Articulos[] | null>([]);
+  const [articles, setArticles] = useState<Articulos[]>([]);
   const { filteredProducts } = useFilters();
   const fetchData = async () => {
     try {
@@ -34,7 +35,7 @@ export function AllProducts() {
       setArticles(filteredProducts);
     }
     if (filteredProducts == null) {
-      setArticles(null);
+      setArticles([]);
     }
   }, [filteredProducts]);
   return (
@@ -47,7 +48,20 @@ export function AllProducts() {
         />
         <DrawerFilters />
       </header>
-      {hanndleCards()}
+      {articles.length > 0 ? (
+        hanndleCards()
+      ) : (
+        <div className="grid grid-cols-2 gap-4 gap-y-3 p-6 lg:grid-cols-4">
+          {[...Array(getWidth() + 2)].map((_, index) => (
+            <Skeleton
+              key={index}
+              count={1}
+              className="max-w-96 aspect-square rounded-lg lg:max-w-64"
+            />
+          ))}
+        </div>
+      )}
+      {}
     </>
   );
 }

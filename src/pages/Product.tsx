@@ -26,6 +26,7 @@ export function Product() {
   const [stockArray, setStockArray] = useState<Stock[]>([]);
   const [selectedSize, setSelectedSize] = useState(" ");
   const { addToCart } = useCart();
+
   const handleTalleClick = (size: string) => {
     setSelectedSize(size);
   };
@@ -73,13 +74,18 @@ export function Product() {
       {!loading ? (
         <div className="bg-white">
           <div>
-            <Breadcrumb category={product?.category} nombre={product?.nombre} />
+            <header className="px-6 xl:px-32">
+              <Breadcrumb
+                category={product?.category}
+                nombre={product?.nombre}
+              />
+            </header>
 
             {/* <!-- Image gallery --> */}
             <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
               <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                 <img
-                  src="https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg"
+                  src={product?.photos.photo1}
                   alt="Two each of gray, white, and black shirts laying flat."
                   className="h-full w-full object-cover object-center"
                 />
@@ -87,25 +93,27 @@ export function Product() {
               <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                   <img
-                    src="https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg"
+                    src={product?.photos.photo2 || product?.photos.photo1}
                     alt="Model wearing plain black basic tee."
-                    className="h-full w-full object-cover object-center"
+                    className="h-full w-full aspect-video object-cover object-center brightness-50"
                   />
                 </div>
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                   <img
-                    src="https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg"
+                    src={product?.photos.photo2 || product?.img}
                     alt="Model wearing plain gray basic tee."
-                    className="h-full w-full object-cover object-center"
+                    className="h-full w-full aspect-video object-cover object-center brightness-50"
                   />
                 </div>
               </div>
               <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                <img
-                  src={product?.img}
-                  alt="Model wearing plain white basic tee."
-                  className="h-full w-full object-cover object-center"
-                />
+                <div className="zoomist-image lg:h-full lg:w-full lg:aspect-video lg:object-cover lg:object-center">
+                  <img
+                    src={product?.img}
+                    alt="Model wearing plain white basic tee."
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
               </div>
             </div>
 

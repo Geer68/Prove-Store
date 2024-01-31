@@ -12,7 +12,7 @@ export function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
   const [apliedCupon, setApliedCupon] = useState<Cupon>();
-  const { cart, totalArticlePrice, clearCart } = useCart();
+  const { cart, totalArticlePrice, clearCart, showCantidad } = useCart();
   const cuponInput = useRef<HTMLInputElement>(null);
 
   const checkLocation = async () => {
@@ -31,6 +31,7 @@ export function Cart() {
   };
 
   const handleCuponClick = async () => {
+    console.log(apliedCupon);
     const cupon = cuponInput.current?.value;
     if (cupon?.length === 0) {
       toast.error("No ingresaste un cupón");
@@ -43,50 +44,74 @@ export function Cart() {
       return;
     }
 
+    toast.success("Cupon aplicado");
     setApliedCupon(response);
     apliedCupon?.type === 2
       ? setTotalPrice(totalPrice - apliedCupon?.discount)
       : setTotalPrice(totalPrice * (1 - (apliedCupon?.discount || 0) / 100));
   };
 
+  const deliveryPriceShow = () => {
+    if (showCantidad() == 0) {
+      return "-";
+    }
+    if (deliveryPrice == 0) {
+      return "¡Gratis!";
+    }
+    return numeral(deliveryPrice).format("$0,0");
+  };
+
   useEffect(() => {
     checkLocation();
     setTotalPrice(totalArticlePrice() + deliveryPrice);
-  }, [cart, deliveryPrice, totalArticlePrice, setTotalPrice]);
+  }, [cart, deliveryPrice, totalArticlePrice, setTotalPrice, setApliedCupon]);
 
   return (
     <>
       <div className="flex justify-center">
         <div className="flex flex-col w-full p-8 text-gray-800 bg-white md:w-4/5 lg:w-4/5">
           <div className="flex-1">
-            <header className="flex justify-center mb-6">
-              <Button onClick={clearCart} variant={"destructive"}>
-                Vaciar carrito
-              </Button>
-            </header>
-            <table className="w-full text-sm lg:text-base" cellSpacing={0}>
-              <thead>
-                <tr className="h-12 uppercase">
-                  <th className="hidden md:table-cell"></th>
-                  <th className="text-left">Productos</th>
-                  <th className="lg:text-right text-left pl-5 lg:pl-0">
-                    <span className="lg:hidden" title="Quantity">
-                      CANT
-                    </span>
-                    <span className="hidden lg:inline">Quantity</span>
-                  </th>
-                  <th className="hidden text-right md:table-cell">
-                    Precio por unidad
-                  </th>
-                  <th className="text-right">Precio total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((item, index) => (
-                  <CartProduct key={index} product={item} />
-                ))}
-              </tbody>
-            </table>
+            {showCantidad() == 0 ? (
+              <header className="flex items-center justify-center">
+                <p className="text-lg">No hay productos</p>
+              </header>
+            ) : (
+              <>
+                <table className="w-full text-sm lg:text-base" cellSpacing={0}>
+                  <thead>
+                    <tr className="h-12 uppercase">
+                      <th className="hidden md:table-cell"></th>
+                      <th className="text-left">Productos</th>
+                      <th className="lg:text-right text-left pl-5 lg:pl-0">
+                        <span className="lg:hidden" title="Quantity">
+                          CANT
+                        </span>
+                        <span className="hidden lg:inline">Quantity</span>
+                      </th>
+                      <th className="hidden text-right md:table-cell">
+                        Precio por unidad
+                      </th>
+                      <th className="text-right">Precio total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cart.map((item, index) => (
+                      <CartProduct key={index} product={item} />
+                    ))}
+                  </tbody>
+                </table>
+                <footer className="flex justify-center lg:justify-end mb-6">
+                  <Button
+                    onClick={clearCart}
+                    variant={"destructive"}
+                    className="text-md"
+                  >
+                    Vaciar carrito
+                  </Button>
+                </footer>
+              </>
+            )}
+
             <hr className="pb-6 mt-6" />
             <div className="my-4 -mx-2 lg:flex">
               <div className="lg:px-2 lg:w-1/2">
@@ -174,11 +199,7 @@ export function Cart() {
                       Envio
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      <p>
-                        {deliveryPrice == 0
-                          ? "¡Gratis!"
-                          : numeral(deliveryPrice).format("$0,0")}
-                      </p>
+                      <p>{deliveryPriceShow()}</p>
                     </div>
                   </div>
                   <div className="flex justify-between pt-4 border-b">
@@ -186,7 +207,11 @@ export function Cart() {
                       Total
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      <p>{numeral(totalPrice).format("$0,0")}</p>
+                      <p>
+                        {showCantidad() == 0
+                          ? numeral(0).format("$0,0")
+                          : numeral(totalPrice).format("$0,0")}
+                      </p>
                     </div>
                   </div>
 

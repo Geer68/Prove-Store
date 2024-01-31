@@ -15,6 +15,10 @@ export type Articulos = {
   descripcion: string;
   detalles: string;
   coleccion: string;
+  photos: {
+    photo1: string;
+    photo2?: string;
+  };
 };
 export type ArticleOnCart = {
   item: Articulos;
