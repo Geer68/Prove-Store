@@ -130,3 +130,17 @@ export async function clearFilters() {
   const response = await axios.get(urls.clearFilters);
   return response.data;
 }
+
+export const getWidth = () => {
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth < 576) {
+    return 4;
+  } else if (windowWidth >= 576 && windowWidth < 992) {
+    return 4;
+  } else if (windowWidth >= 992 && windowWidth < 1200) {
+    return 8;
+  } else {
+    return 8;
+  }
+};
