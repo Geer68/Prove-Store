@@ -69,7 +69,7 @@ export function CarouselH() {
             ></path>
           </svg>
           <aside className="text-white ml-5">
-            <h3 className="text-lg">Pagá en 3 y 6 cuotas sin interés</h3>
+            <h3 className="text-lg">3 y 6 cuotas sin interés</h3>
             <p className="text-sm">Con las tarejetas seleccionadas</p>
           </aside>
         </CarouselItem>
