@@ -120,7 +120,7 @@ export function HomePage() {
           ))}
         </div>
       )}
-      <section className="grid gap-4  justify-items-center w-full relative">
+      <section className="grid gap-4 mt-10 justify-items-center w-full relative">
         <video
           src={videoHome}
           className="w-full brightness-50 sm:aspect-video sm:object-cover sm:max-h-96"
@@ -130,16 +130,18 @@ export function HomePage() {
         ></video>
 
         <div className="absolute  grid top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white items-center justify-center">
-          <h1 className="text-7xl sm:text-7xl lg:text-8xl font-tinos mb-6">
+          <h1 className="text-7xl sm:text-7xl lg:text-8xl font-tinos mb-6 mix-blend-difference">
             PRØVE
           </h1>
-          <h3 className="uppercase font-bold">PRØVE World-Wide drop</h3>
+          <h3 className="uppercase font-bold mix-blend-difference">
+            PRØVE World-Wide drop
+          </h3>
           {/* <h3 className="text-sm font-light sm:text-lg lg:text-2xl max-w-4xl ">
             La colección de shorts 'LTW' se inspira en la esencia del
             baloncesto, fusionando moda urbana y deportiva para ofrecer máxima
             comodidad sin sacrificar el estilo.
           </h3> */}
-          <Link
+          {/* <Link
             to="/products"
             className="mt-6 border-b sm:text-xl border-white w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
           >
@@ -159,7 +161,7 @@ export function HomePage() {
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
             </svg>
-          </Link>
+          </Link> */}
         </div>
       </section>
       <section className="text-center grid gap-4 mt-10">
