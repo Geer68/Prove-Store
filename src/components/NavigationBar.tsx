@@ -11,7 +11,7 @@ import enzo from "../imgs/enzo.jpg";
 
 import { Link } from "react-router-dom";
 import { CartContext } from "@/contexts/cart";
-import { Banner } from "./Banner";
+// import { Banner } from "./Banner";
 
 const navigation = {
   categories: [
@@ -249,7 +249,7 @@ export function NavigationBar() {
       </Transition.Root>
 
       <header className="relative bg-white">
-        <Banner />
+        {/* <Banner /> */}
 
         <nav
           aria-label="Top"

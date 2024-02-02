@@ -9,7 +9,7 @@ export function Breadcrumb({
 }): JSX.Element {
   return (
     <>
-      <nav className="flex m-6 " aria-label="Breadcrumb">
+      <nav className="flex mx-2 mt-4" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
             <Link

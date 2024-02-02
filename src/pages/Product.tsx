@@ -72,150 +72,136 @@ export function Product() {
   return (
     <>
       {!loading ? (
-        <div className="bg-white">
-          <div>
-            <header className="px-6 xl:px-32">
-              <Breadcrumb
-                category={product?.category}
-                nombre={product?.nombre}
-              />
-            </header>
-
-            {/* <!-- Image gallery --> */}
-            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+        <div className="bg-white px-6">
+          <header className=" lg:px-32">
+            <Breadcrumb category={product?.category} nombre={product?.nombre} />
+          </header>
+          <div className="grid lg:flex  lg:justify-between lg:pl-24">
+            {/* Imagenes */}
+            <div className="lg:w-2/5  mt-6 max-w-2xl grid grid-cols-1  lg:gap-x-8">
+              <div className="aspect-h-4 lg:w-full overflow-hidden sm:rounded-lg lg:block">
                 <img
-                  src={product?.photos.photo1}
+                  src={product?.img}
                   alt="Two each of gray, white, and black shirts laying flat."
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full object-cover object-center aspect-square rounded-lg"
                 />
               </div>
-              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                  <img
-                    src={product?.photos.photo2 || product?.photos.photo1}
-                    alt="Model wearing plain black basic tee."
-                    className="h-full w-full aspect-video object-cover object-center brightness-50"
-                  />
-                </div>
-                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                  <img
-                    src={product?.photos.photo2 || product?.img}
-                    alt="Model wearing plain gray basic tee."
-                    className="h-full w-full aspect-video object-cover object-center brightness-50"
-                  />
-                </div>
-              </div>
-              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                <div className="zoomist-image lg:h-full lg:w-full lg:aspect-video lg:object-cover lg:object-center">
-                  <img
-                    src={product?.img}
-                    alt="Model wearing plain white basic tee."
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-              </div>
+              <footer className="flex gap-2 grid-cols-3 mt-2 ">
+                {product?.photos &&
+                  Object.values(product.photos).map((photo, index) => (
+                    <img
+                      key={index}
+                      src={photo}
+                      alt={`Model wearing plain tee ${index + 1}.`}
+                      className="max-h-[100px] w-auto aspect-square object-cover object-center brightness-50 rounded-lg"
+                    />
+                  ))}
+              </footer>
             </div>
 
             {/* <!-- Product info --> */}
-            <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-              <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                  {product?.nombre}
-                </h1>
-              </div>
+            <div className="mx-auto lg:mx-4 lg:w-full mt-6 max-w-2xl grid grid-cols-1 lg:grid  lg:gap-x-2">
+              <aside className="lg:w-2/3 lg:mr-4 ">
+                <div className="lg:col-span-2 lg:pr-8">
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+                    {product?.nombre}
+                  </h1>
+                </div>
 
-              {/* <!-- Options --> */}
-              <div className="mt-4 lg:row-span-3 lg:mt-0">
-                <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl tracking-tight text-gray-900">
-                  {numeral(product?.precio).format("$0,0")}
-                </p>
+                {/* <!-- Options --> */}
+                <div className="mt-4 lg:row-span-3 lg:mt-0">
+                  <h2 className="sr-only">Product information</h2>
+                  <p className="text-3xl tracking-tight text-gray-900">
+                    {numeral(product?.precio).format("$0,0")}
+                  </p>
 
-                {/* <!-- Sizes --> */}
-                <div className="mt-10">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-900">Talle</h3>
-                    <Drawer>
-                      <DrawerTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
-                        Guía de talles
-                      </DrawerTrigger>
-                      <DrawerContent>
-                        <SizeTable />
-                        <DrawerFooter>
-                          <section className="grid grid-cols-2">
-                            <img
-                              className="mx-auto h-auto w-auto"
-                              src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/WAIST_CIRCUMFERENCE_FROM_MALE-1.png"
-                              alt="cintura"
-                            />
-                            <aside className="m-5">
-                              <p className="text-l font-semibold">
-                                Contorno de la cintura
-                              </p>
-                              <p className="text-sm mt-2">
-                                Juntá los pies. Después, medí la parte más
-                                estrecha de tu cuerpo entre el pecho y la
-                                cadera.
-                              </p>
-                            </aside>
-                          </section>
-                          <section className="grid grid-cols-2">
-                            <img
-                              className="mx-auto h-auto w-auto"
-                              src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/HIP_CIRCUMFERENCE_FROM_MALE-1.png"
-                              alt="cintura"
-                            />
-                            <aside className="m-5">
-                              <p className="text-l font-semibold">
-                                Contorno de la cadera
-                              </p>
-                              <p className="text-sm mt-2">
-                                Junta los pies. Después, medí la parte más ancha
-                                de tu cadera.
-                              </p>
-                            </aside>
-                          </section>
-                        </DrawerFooter>
-                      </DrawerContent>
-                    </Drawer>
-                  </div>
-
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">Choose a size</legend>
-                    <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                      {stockArray.length > 0 ? (
-                        stockArray.map((letra) => (
-                          <SizeBox
-                            onSelect={handleTalleClick}
-                            selectedSize={selectedSize}
-                            key={letra.talle}
-                            talle={letra.talle}
-                            stock={letra.stock}
-                          />
-                        ))
-                      ) : (
-                        <p>Cargando artículos...</p>
-                      )}
+                  {/* <!-- Sizes --> */}
+                  <div className="mt-10">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-medium text-gray-900">
+                        Talle
+                      </h3>
+                      <Drawer>
+                        <DrawerTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
+                          Guía de talles
+                        </DrawerTrigger>
+                        <DrawerContent>
+                          <SizeTable />
+                          <DrawerFooter>
+                            <section className="grid grid-cols-2">
+                              <img
+                                className="mx-auto h-auto w-auto"
+                                src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/WAIST_CIRCUMFERENCE_FROM_MALE-1.png"
+                                alt="cintura"
+                              />
+                              <aside className="m-5">
+                                <p className="text-l font-semibold">
+                                  Contorno de la cintura
+                                </p>
+                                <p className="text-sm mt-2">
+                                  Juntá los pies. Después, medí la parte más
+                                  estrecha de tu cuerpo entre el pecho y la
+                                  cadera.
+                                </p>
+                              </aside>
+                            </section>
+                            <section className="grid grid-cols-2">
+                              <img
+                                className="mx-auto h-auto w-auto"
+                                src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/HIP_CIRCUMFERENCE_FROM_MALE-1.png"
+                                alt="cintura"
+                              />
+                              <aside className="m-5">
+                                <p className="text-l font-semibold">
+                                  Contorno de la cadera
+                                </p>
+                                <p className="text-sm mt-2">
+                                  Junta los pies. Después, medí la parte más
+                                  ancha de tu cadera.
+                                </p>
+                              </aside>
+                            </section>
+                          </DrawerFooter>
+                        </DrawerContent>
+                      </Drawer>
                     </div>
-                  </fieldset>
-                </div>
-                <div className="grid gap-4 pt-10">
-                  <Button
-                    onClick={() => mpIndividual(product?.id, selectedSize)}
-                  >
-                    Comprar
-                  </Button>
-                  <Button
-                    variant={"secondary"}
-                    onClick={() => handleCartClick(product)}
-                  >
-                    Agregar al carrito
-                  </Button>
-                </div>
-              </div>
 
-              <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                    <fieldset className="mt-4">
+                      <legend className="sr-only">Choose a size</legend>
+                      <div className="grid grid-cols-5 gap-4 sm:grid-cols-8 lg:grid-cols-5">
+                        {stockArray.length > 0 ? (
+                          stockArray.map((letra) => (
+                            <SizeBox
+                              onSelect={handleTalleClick}
+                              selectedSize={selectedSize}
+                              key={letra.talle}
+                              talle={letra.talle}
+                              stock={letra.stock}
+                            />
+                          ))
+                        ) : (
+                          <p>Cargando artículos...</p>
+                        )}
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div className="grid gap-4 pt-10">
+                    <Button
+                      onClick={() => mpIndividual(product?.id, selectedSize)}
+                    >
+                      Comprar
+                    </Button>
+                    <Button
+                      variant={"secondary"}
+                      onClick={() => handleCartClick(product)}
+                    >
+                      Agregar al carrito
+                    </Button>
+                  </div>
+                </div>
+              </aside>
+
+              <div className="py-10 lg:col-span-2 lg:col-start-1  lg:w-2/3  lg:pb-16 l lg:pt-6">
                 {/* <!-- Description and details --> */}
                 <div>
                   <h3 className="sr-only">Description</h3>
