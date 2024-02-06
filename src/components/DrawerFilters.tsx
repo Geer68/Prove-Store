@@ -1,12 +1,11 @@
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -79,20 +78,22 @@ export function DrawerFilters() {
     }
   };
   return (
-    <Drawer>
-      <DrawerTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
+    <Dialog>
+      <DialogTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
         <Filter size={20} />
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>Filtros</DrawerTitle>
-          <DrawerDescription>Seleccione los filtros</DrawerDescription>
-        </DrawerHeader>
-        <section className="p-6 grid gap-5">
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Filtros</DialogTitle>
+          <DialogDescription>
+            Encontrá esos productos que deseas
+          </DialogDescription>
+        </DialogHeader>
+        <section className="pt-5 grid gap-5">
           <div>
             <Label htmlFor="categorias">Categoría</Label>
             <Select onValueChange={(e) => categoryFilter(e)}>
-              <SelectTrigger id="categorias" className="w-full sm:w-[180px]">
+              <SelectTrigger id="categorias" className="w-full">
                 <SelectValue placeholder="Todas" />
               </SelectTrigger>
               <SelectContent>
@@ -105,7 +106,7 @@ export function DrawerFilters() {
           <div>
             <Label htmlFor="coleccion">Coleción</Label>
             <Select onValueChange={(e) => collectionFilters(e)}>
-              <SelectTrigger id="coleccion" className="w-full sm:w-[180px]">
+              <SelectTrigger id="coleccion" className="w-full">
                 <SelectValue placeholder="Todas" />
               </SelectTrigger>
               <SelectContent>
@@ -143,13 +144,13 @@ export function DrawerFilters() {
             </aside>
           </div>
         </section>
-        <DrawerFooter className="flex gap-6 justify-between p-6">
-          <Button onClick={handdleApplyClick}>Aplicar Filtros</Button>
+        <footer className=" flex gap-3 justify-end p-6">
           <Button variant={"secondary"} onClick={handdleClearClick}>
             Limpiar Filtros
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+          <Button onClick={handdleApplyClick}>Aplicar Filtros</Button>
+        </footer>
+      </DialogContent>
+    </Dialog>
   );
 }

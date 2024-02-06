@@ -1,5 +1,6 @@
 import { Articulos } from "logic/types";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export function CategoryCard({
   cantidad,
@@ -53,21 +54,20 @@ export function CategoryCard({
   return (
     <div className="grid mt-6 p-4 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
       {collections.map((collection, index) => (
-        <div
-          key={index}
-          className="relative group overflow-hidden bg-gray-200 aspect-w-7 aspect-h-8 rounded-lg "
-        >
-          <img
-            src={collection.img}
-            alt={collection.collection}
-            className="w-full h-full object-cover object-center transition-transform transform hover:scale-110 group-hover:scale-105 brightness-50"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h3 className="text-white uppercase text-2xl font-tinos text-center bg-opacity-50 p-2">
-              {collection.collection}
-            </h3>
+        <Link to={`/products/${collection.collection}`} key={index}>
+          <div className="relative group overflow-hidden bg-gray-200 aspect-w-7 aspect-h-8 rounded-lg ">
+            <img
+              src={collection.img}
+              alt={collection.collection}
+              className="w-full h-full object-cover object-center transition-transform transform hover:scale-110 group-hover:scale-105 brightness-50"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-white uppercase text-2xl font-tinos text-center bg-opacity-50 p-2">
+                {collection.collection}
+              </h3>
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

@@ -7,8 +7,11 @@ import { useEffect, useState } from "react";
 import { Articulos } from "logic/types";
 import { NoMatchesSearch } from "@/components/NoMatchesSearch";
 import Skeleton from "react-loading-skeleton";
+import { useParams } from "react-router-dom";
 
 export function AllProducts() {
+  const { query } = useParams();
+
   const { searchFilter } = useFilters();
   const [articles, setArticles] = useState<Articulos[]>([]);
   const { filteredProducts } = useFilters();
@@ -37,6 +40,7 @@ export function AllProducts() {
     if (filteredProducts == null) {
       setArticles([]);
     }
+    console.log(query);
   }, [filteredProducts]);
   return (
     <>

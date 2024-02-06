@@ -9,7 +9,7 @@ import { CartContext } from "@/contexts/cart";
 import { AllProducts } from "./pages/AllProducts";
 import { Page404 } from "./pages/Page404";
 import ContactSection from "./pages/ContactSection";
-import {Footer} from "./components/Footer";
+import { Footer } from "./components/Footer";
 type Route = {
   path: string;
   Component: React.ComponentType<any>;
@@ -29,7 +29,7 @@ const routes: Route[] = [
     Component: Cart,
   },
   {
-    path: "/products",
+    path: "/products/:query?",
     Component: AllProducts,
   },
   {
@@ -66,7 +66,7 @@ function App() {
             />
           ))}
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </>
   );
