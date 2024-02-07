@@ -42,7 +42,7 @@ export function CartProduct({
       <td className="justify-center md:justify-end md:flex mt-6">
         <div className="w-20 h-10">
           <div className="relative flex flex-row w-full h-8">
-            <aside className="flex gap-2 rounded-lg border-2 border-gray-100 items-center h-10">
+            <aside className="flex gap-2 rounded-sm border-2 border-gray-100 items-center h-10">
               <Button variant={"ghost"} onClick={() => quitarCantidad(product)}>
                 -
               </Button>

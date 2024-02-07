@@ -92,12 +92,12 @@ export function AllProducts() {
   }, [collection, category]);
   return (
     <>
-      <header className="flex gap-2 pt-5 pb-0 items-center justify-center  p-4">
+      <header className="flex gap-2 pt-5 pb-0 items-center justify-center p-4">
         <Input
           onChange={searchFilter}
           placeholder="Buscar productos"
           name="search"
-          className="w-2/4"
+          className="sm:w-2/4 w-full"
         />
         <DrawerFilters />
       </header>

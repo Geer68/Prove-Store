@@ -17,7 +17,7 @@ export function ProductoCard({
     <div className="grid mt-6 p-4 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
       {articlesToShow.map((product) => (
         <Link key={product.id} to={`/product/${product.url}`} className="group">
-          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-sm bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
             <img
               src={product.img}
               alt={product.nombre}

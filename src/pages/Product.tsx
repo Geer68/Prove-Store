@@ -29,7 +29,12 @@ export function Product() {
   const { query } = useParams();
   const [stockArray, setStockArray] = useState<Stock[]>([]);
   const [selectedSize, setSelectedSize] = useState(" ");
+  const [selectedImage, setSelectedImage] = useState(product?.img);
   const { addToCart } = useCart();
+
+  const handleImageClick = (image: string | undefined) => {
+    setSelectedImage(image);
+  };
 
   const handleTalleClick = (size: string) => {
     setSelectedSize(size);
@@ -68,6 +73,7 @@ export function Product() {
         } else {
           console.error("No se encontró stock para el producto");
         }
+        setSelectedImage(product?.img);
       })
       .then(() => setLoading(false))
       .catch((error) => {
@@ -78,35 +84,43 @@ export function Product() {
     <>
       {!loading ? (
         <div className="bg-white px-6">
-          <header className=" lg:px-32">
+          <header className=" lg:px-32 lg:mt-5">
             <Breadcrumb category={product?.category} nombre={product?.nombre} />
           </header>
-          <div className="grid lg:flex  lg:justify-between lg:pl-24">
+          <div className="grid xl:flex my-6 xl:justify-between xl:pl-32  justify-center items-center">
             {/* Imagenes */}
-            <div className="lg:w-2/5  mt-6 max-w-2xl grid grid-cols-1  lg:gap-x-8">
-              <div className="aspect-h-4 lg:w-full overflow-hidden sm:rounded-lg lg:block">
+            <div className="xl:w-3/5 my-6 mt-6 max-w-2xl grid grid-cols-1 xl:gap-x-8">
+              <div className="aspect-h-4 xl:w-full overflow-hidden sm:rounded-xl xl:block">
                 <img
-                  src={product?.img}
+                  src={selectedImage}
                   alt="Two each of gray, white, and black shirts laying flat."
-                  className="h-full w-full object-cover object-center aspect-square rounded-lg"
+                  className="h-full w-full object-cover object-center aspect-square rounded-sm"
                 />
               </div>
               <footer className="flex gap-2 grid-cols-3 mt-2 ">
+                <img
+                  key={1}
+                  src={product?.img}
+                  alt={`Model wearing plain tee ${1}.`}
+                  className="max-h-[60px] sm:max-h-[100px] w-auto aspect-square object-cover object-center brightness-50 rounded-sm"
+                  onClick={() => handleImageClick(product?.img)}
+                />
                 {product?.photos &&
                   Object.values(product.photos).map((photo, index) => (
                     <img
                       key={index}
                       src={photo}
                       alt={`Model wearing plain tee ${index + 1}.`}
-                      className="max-h-[100px] w-auto aspect-square object-cover object-center brightness-50 rounded-lg"
+                      className="max-h-[60px] sm:max-h-[100px] w-auto aspect-square object-cover object-center brightness-50 rounded-sm"
+                      onClick={() => handleImageClick(photo)}
                     />
                   ))}
               </footer>
             </div>
 
             {/* <!-- Product info --> */}
-            <div className="mx-auto lg:mx-4 lg:w-full mt-6 max-w-2xl grid grid-cols-1 lg:grid  lg:gap-x-2">
-              <aside className="lg:w-2/3 lg:mr-4 ">
+            <div className=" lg:mx-12 lg:w-full mt-6 max-w-2xl grid grid-cols-1 lg:grid lg:gap-x-2">
+              <aside className="xl:w-4/5 xl:mr-4 ">
                 <div className="lg:col-span-2 lg:pr-8">
                   <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                     {product?.nombre}
