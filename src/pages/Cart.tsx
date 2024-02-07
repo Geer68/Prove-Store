@@ -10,7 +10,7 @@ import {
 import toast from "react-hot-toast";
 import { Cupon } from "logic/types";
 import { useCart } from "@/hooks/useCart";
-import { mpVarios } from "../../logic/mercadoPago";
+// import { mpVarios } from "../../logic/mercadoPago";
 import { Link } from "react-router-dom";
 
 export function Cart() {
