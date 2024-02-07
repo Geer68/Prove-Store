@@ -132,7 +132,7 @@ export function Cart() {
             )}
 
             <hr className="pb-6 mt-6" />
-            <div className="my-4 -mx-2 lg:flex">
+            <div className={cart.length == 0 ? "hidden" : "my-4 -mx-2 lg:flex"}>
               <div className="lg:px-2 lg:w-1/2">
                 <div className="p-2 bg-gray-100 rounded-lg">
                   <h1 className="ml-2 font-bold uppercase">Cupón</h1>
@@ -171,7 +171,13 @@ export function Cart() {
                   </div>
                 </div>
               </div>
-              <div className="lg:px-2 lg:w-1/2">
+              <div
+                className={
+                  cart.length > 0
+                    ? "lg:px-2 lg:w-1/2"
+                    : "lg:px-2 lg:w-1/2 hidden"
+                }
+              >
                 <div className="p-2 bg-gray-100 rounded-lg">
                   <h1 className="ml-2 font-bold uppercase">Tu orden</h1>
                 </div>
