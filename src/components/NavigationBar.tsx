@@ -33,9 +33,9 @@ export function NavigationBar() {
   const { cart, showCantidad, deleteFromCart } = cartContext;
 
   const navigation = [
-    { name: "World-Wide", href: "WorldWide", current: false },
-    { name: "Basic-Collection", href: "Pr<3ve", current: false },
-    { name: "SHOP NOW", href: "all", current: false },
+    { name: "World-Wide", to: "WorldWide", current: false },
+    { name: "Basic-Collection", to: "Pr<3ve", current: false },
+    { name: "SHOP NOW", to: "all", current: false },
   ];
 
   useEffect(() => {
@@ -85,10 +85,16 @@ export function NavigationBar() {
                                   />
                                 </NavigationMenuLink>
                               </li>
-                              <ListItem href="/products/all" title="Remeras">
+                              <ListItem
+                                to="/products/WorldWide/Remeras"
+                                title="Remeras"
+                              >
                                 Remeras Oversize
                               </ListItem>
-                              <ListItem href="/products/all" title="Shorts">
+                              <ListItem
+                                to="/products/WorldWide/Shorts"
+                                title="Shorts"
+                              >
                                 Confort y estilo
                               </ListItem>
                             </ul>
@@ -109,13 +115,19 @@ export function NavigationBar() {
                                   />
                                 </NavigationMenuLink>
                               </li>
-                              <ListItem href="/products/all" title="Remeras">
+                              <ListItem
+                                to="/products/all/Remeras"
+                                title="Remeras"
+                              >
                                 La escencia de la elegancia
                               </ListItem>
-                              <ListItem href="/products/all" title="Shorts">
+                              <ListItem
+                                to="/products/all/Shorts"
+                                title="Shorts"
+                              >
                                 Comodidad y estilo
                               </ListItem>
-                              <ListItem href="/products/all" title="Buzos">
+                              <ListItem to="/products/all/Buzos" title="Buzos">
                                 Minimalista y distintivo
                               </ListItem>
                             </ul>
@@ -154,7 +166,7 @@ export function NavigationBar() {
               {navigation.map((item) => (
                 <Link
                   key={item.name}
-                  to={`products/${item.href}`}
+                  to={`products/${item.to}`}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
@@ -174,13 +186,13 @@ export function NavigationBar() {
   );
 }
 const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link>
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -192,9 +204,10 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
 });
+
 ListItem.displayName = "ListItem";

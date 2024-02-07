@@ -2,57 +2,106 @@ import { ProductoCard } from "@/components/ProductoCard";
 import { Input } from "@/components/ui/input";
 import { DrawerFilters } from "@/components/DrawerFilters";
 import { useFilters } from "@/hooks/useFilters";
-import { getWidth, getarticles } from "../../logic/configs";
+import {
+  getFilterProducts,
+  getWidth,
+  useDocumentTitle,
+} from "../../logic/configs";
 import { useEffect, useState } from "react";
 import { Articulos } from "logic/types";
 import { NoMatchesSearch } from "@/components/NoMatchesSearch";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom";
+import { notifyError } from "@/hooks/toast";
 
 export function AllProducts() {
-  const { query } = useParams();
-
+  const { collection, category } = useParams();
   const { searchFilter } = useFilters();
   const [articles, setArticles] = useState<Articulos[]>([]);
-  const { filteredProducts } = useFilters();
-  const fetchData = async () => {
-    try {
-      const fetchedArticles = await getarticles();
-      setArticles(fetchedArticles);
-    } catch (error) {
-      console.error("Error al obtener los artículos:", error);
-    }
-  };
+  const {
+    filteredProducts,
+    collectionFilters,
+    categoryFilter,
+    filters,
+    setFilteredProducts,
+    clearFilters,
+  } = useFilters();
 
   const hanndleCards = () => {
     if (filteredProducts !== null) {
-      return <ProductoCard until={99} articles={articles} />;
+      return <ProductoCard until={99} articles={filteredProducts} />;
     }
     return <NoMatchesSearch />;
   };
+  useDocumentTitle("Prove Store");
+  const handdleUrl = async () => {
+    let updatedFilters = { ...filters };
+    if (collection === "all" && category === undefined) {
+      clearFilters();
+      updatedFilters = {
+        ...updatedFilters,
+        collection: "Todas",
+        category: "Todas",
+      };
+    }
+    if (collection !== "all" || category !== undefined) {
+      if (collection === "all") {
+        updatedFilters = {
+          ...updatedFilters,
+          collection: "Todas",
+        };
+        collectionFilters("Todas");
+      } else {
+        updatedFilters = {
+          ...updatedFilters,
+          collection: collection || "Todas",
+        };
+        collectionFilters(updatedFilters.collection);
+      }
+      categoryFilter(category || "Todas");
+
+      // Actualizar la copia local de los filtros
+      updatedFilters = {
+        ...updatedFilters,
+        category: category || "Todas",
+      };
+    }
+
+    const filteredProducts = await getFilterProducts(updatedFilters);
+    setFilteredProducts(filteredProducts);
+
+    if (filteredProducts == null) {
+      notifyError("No existen coincidencias");
+    } else {
+      setFilteredProducts(filteredProducts);
+    }
+  };
 
   useEffect(() => {
-    if (filteredProducts?.length == 0) {
-      fetchData();
-    } else if (filteredProducts != null) {
-      setArticles(filteredProducts);
-    }
-    if (filteredProducts == null) {
-      setArticles([]);
-    }
-    console.log(query);
-  }, [filteredProducts]);
+    const fetchDataAndHandleUrl = async () => {
+      await handdleUrl();
+
+      if (filteredProducts != null) {
+        setArticles(filteredProducts);
+      } else {
+        setArticles([]);
+      }
+    };
+
+    fetchDataAndHandleUrl();
+  }, [collection, category]);
   return (
     <>
-      <header className="flex gap-2 pt-5 pb-0 p-4">
+      <header className="flex gap-2 pt-5 pb-0 items-center justify-center  p-4">
         <Input
           onChange={searchFilter}
           placeholder="Buscar productos"
           name="search"
+          className="w-2/4"
         />
         <DrawerFilters />
       </header>
-      {articles.length > 0 ? (
+      {articles !== null ? (
         hanndleCards()
       ) : (
         <div className="grid grid-cols-2 gap-4 gap-y-3 p-6 lg:grid-cols-4">

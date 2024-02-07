@@ -29,7 +29,7 @@ const routes: Route[] = [
     Component: Cart,
   },
   {
-    path: "/products/:query?",
+    path: "/products/:collection/:category?",
     Component: AllProducts,
   },
   {

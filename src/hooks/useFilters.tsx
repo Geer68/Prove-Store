@@ -13,6 +13,7 @@ export function useFilters() {
     categoryFilter,
     minPriceFilter,
     maxPriceFilter,
+    clearFilters,
   } = useContext(FiltersContext);
 
   return {
@@ -26,5 +27,6 @@ export function useFilters() {
     collectionFilters,
     minPriceFilter,
     maxPriceFilter,
+    clearFilters,
   };
 }

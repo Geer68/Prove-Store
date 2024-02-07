@@ -1,20 +1,7 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Switch } from "@headlessui/react";
+import { useDocumentTitle } from "../../logic/configs";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -22,7 +9,7 @@ function classNames(...classes: string[]) {
 
 export default function ContactSection() {
   const [agreed, setAgreed] = useState(false);
-
+  useDocumentTitle("Prove Store");
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div

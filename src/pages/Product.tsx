@@ -1,5 +1,9 @@
 import { Articulos, Stock, ArticleOnCart } from "logic/types";
-import { getStockTalle, getProductUrl } from "../../logic/configs";
+import {
+  getStockTalle,
+  getProductUrl,
+  useDocumentTitle,
+} from "../../logic/configs";
 import { mpIndividual } from "../../logic/mercadoPago";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -43,6 +47,7 @@ export function Product() {
       notifyError("No seleccionaste un talle");
     }
   };
+  useDocumentTitle(product?.nombre || "Prove Store");
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchData = async () => {

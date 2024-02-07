@@ -2,7 +2,7 @@ import toast from "react-hot-toast";
 import { urls, Articulos, Stock, IpInfo, Cupon } from "./types";
 import axios from "axios";
 import { FilterProps } from "@/contexts/filters";
-
+import { useEffect } from "react";
 const { VITE_API_KEY: apiKey } = import.meta.env;
 
 export async function getarticles(): Promise<Articulos[]> {
@@ -109,7 +109,6 @@ export async function checkCupon(cuponInput: string): Promise<Cupon | null> {
 }
 
 export async function getFilterProducts(filters: FilterProps) {
-  console.log(filters);
   const response = await axios.post(urls.getFilteredProducts, {
     filters: {
       category: filters.category,
@@ -119,7 +118,6 @@ export async function getFilterProducts(filters: FilterProps) {
       colection: filters.collection,
     },
   });
-  console.log(response.data);
   if (response.data.error) {
     return null;
   }
@@ -144,3 +142,9 @@ export const getWidth = () => {
     return 8;
   }
 };
+
+export function useDocumentTitle(title: string) {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+}

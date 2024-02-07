@@ -28,12 +28,16 @@ export const FiltersContext = createContext({
   minPriceFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
   maxPriceFilter: (e: React.ChangeEvent<HTMLInputElement>) => {},
   collectionFilters: (e: string) => {},
+  clearFilters: () => {},
 });
 export function FiltersProvider({ children }: { children: React.ReactNode }) {
   const [filters, setFilter] = useState<FilterProps>(initialFilterState);
   const [filteredProducts, setFilteredProducts] = useState<Articulos[] | null>(
     []
   );
+  const clearFilters = async () => {
+    setFilter(initialFilterState);
+  };
   const changeFilters = (newFilters: FilterProps) => {
     setFilter(newFilters);
   };
@@ -44,7 +48,6 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
   };
 
   const categoryFilter = (e: string) => {
-    console.log(e);
     setFilter({ ...filters, category: e });
   };
 
@@ -54,13 +57,11 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
 
   const minPriceFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
     setFilter({ ...filters, minPrice: parseInt(value) });
   };
 
   const maxPriceFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log(value);
     setFilter({ ...filters, maxPrice: parseInt(value) });
   };
 
@@ -77,6 +78,7 @@ export function FiltersProvider({ children }: { children: React.ReactNode }) {
         collectionFilters,
         minPriceFilter,
         maxPriceFilter,
+        clearFilters,
       }}
     >
       {children}

@@ -117,6 +117,7 @@ export function DrawerFilters() {
                 <SelectItem value="ProveClub">ProveClub</SelectItem>
                 <SelectItem value={`Logo "Prove"`}>Logo "Prove"</SelectItem>
                 <SelectItem value="Broken Heart">Broken Heart</SelectItem>
+                <SelectItem value="WorldWide">World-Wide</SelectItem>
               </SelectContent>
             </Select>
           </div>

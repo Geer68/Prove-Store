@@ -2,7 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { CartProduct } from "@/components/CartProduct";
 import numeral from "numeral";
-import { getPriceDelivery, checkCupon } from "../../logic/configs";
+import {
+  getPriceDelivery,
+  checkCupon,
+  useDocumentTitle,
+} from "../../logic/configs";
 import toast from "react-hot-toast";
 import { Cupon } from "logic/types";
 import { useCart } from "@/hooks/useCart";
@@ -14,7 +18,7 @@ export function Cart() {
   const [apliedCupon, setApliedCupon] = useState<Cupon>();
   const { cart, totalArticlePrice, clearCart, showCantidad } = useCart();
   const cuponInput = useRef<HTMLInputElement>(null);
-
+  useDocumentTitle("Prove Store");
   const checkLocation = async () => {
     try {
       const price = await getPriceDelivery();

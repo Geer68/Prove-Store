@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getWidth, getarticles } from "../../logic/configs";
+import { getWidth, getarticles, useDocumentTitle } from "../../logic/configs";
 import { ProductoCard } from "../components/ProductoCard";
 import { Link } from "react-router-dom";
 import { Articulos } from "../../logic/types";
@@ -12,7 +12,7 @@ import videoHome from "../imgs/video.mp4";
 
 export function HomePage() {
   const [articles, setArticles] = useState<Articulos[]>([]);
-
+  useDocumentTitle("Prove Store");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,7 +47,7 @@ export function HomePage() {
           </h1>
           <h3 className="uppercase font-bold">PRØVE World-Wide drop</h3>
           <Link
-            to="/products"
+            to="/products/all"
             className="mt-6 border-b sm:text-xl border-white w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
           >
             Comprar
@@ -78,7 +78,7 @@ export function HomePage() {
           Confort, frescura y versatilidad.
         </h2>
         <Link
-          to="/products"
+          to="/products/all"
           className="mt-3 border-b sm:text-xl border-black w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
         >
           Ver Más
@@ -136,7 +136,7 @@ export function HomePage() {
             comodidad sin sacrificar el estilo.
           </h3> */}
           {/* <Link
-            to="/products"
+            to="/products/all"
             className="mt-6 border-b sm:text-xl border-white w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
           >
             Comprar
@@ -166,7 +166,7 @@ export function HomePage() {
           Comodidad, estilo, minimalismo.
         </h2>
         <Link
-          to="/products"
+          to="/products/all"
           className="mt-3 border-b sm:text-xl border-black w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
         >
           Ver Más
@@ -247,7 +247,7 @@ export function HomePage() {
             comodidad sin sacrificar el estilo.
           </h3> */}
           <Link
-            to="/products"
+            to="/products/all"
             className="mt-6 border-b sm:text-xl border-white w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
           >
             Comprar
