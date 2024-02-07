@@ -11,11 +11,15 @@ import toast from "react-hot-toast";
 import { Cupon } from "logic/types";
 import { useCart } from "@/hooks/useCart";
 import { mpVarios } from "../../logic/mercadoPago";
+import { Link } from "react-router-dom";
 
 export function Cart() {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number>(0);
-  const [apliedCupon, setApliedCupon] = useState<Cupon>();
+  const [apliedCupon, setApliedCupon] = useState<Cupon>({
+    type: 0,
+    discount: 0,
+  });
   const { cart, totalArticlePrice, clearCart, showCantidad } = useCart();
   const cuponInput = useRef<HTMLInputElement>(null);
   useDocumentTitle("Prove Store");
@@ -35,24 +39,35 @@ export function Cart() {
   };
 
   const handleCuponClick = async () => {
-    console.log(apliedCupon);
+    if (apliedCupon?.type !== 0) {
+      toast.error("Cupon ya aplicado");
+      return;
+    }
+
     const cupon = cuponInput.current?.value;
     if (cupon?.length === 0) {
       toast.error("No ingresaste un cupón");
       return;
     }
+
     const response = await checkCupon(String(cupon).toUpperCase());
 
     if (!response) {
-      toast.error("Cupon no valido");
       return;
     }
 
     toast.success("Cupon aplicado");
     setApliedCupon(response);
-    apliedCupon?.type === 2
-      ? setTotalPrice(totalPrice - apliedCupon?.discount)
-      : setTotalPrice(totalPrice * (1 - (apliedCupon?.discount || 0) / 100));
+
+    const currentCupon = { ...response };
+    applyDiscount(currentCupon);
+  };
+
+  const applyDiscount = (cupon: Cupon) => {
+    if (cupon.discount == undefined) return;
+    cupon?.type === 2
+      ? setTotalPrice(totalPrice - cupon?.discount)
+      : setTotalPrice(totalPrice * (1 - (cupon?.discount || 0) / 100));
   };
 
   const deliveryPriceShow = () => {
@@ -221,9 +236,11 @@ export function Cart() {
 
                   <Button
                     className="w-full h-12 mt-10 text-lg"
-                    onClick={handleMercadoPago}
+                    // onClick={handleMercadoPago}
                   >
-                    Ir a pagar
+                    <Link to={"/contactUS"} className="h-full w-full">
+                      Ir a pagar
+                    </Link>
                   </Button>
                 </div>
               </div>

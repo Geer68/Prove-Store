@@ -4,24 +4,32 @@ import {
   getProductUrl,
   useDocumentTitle,
 } from "../../logic/configs";
-import { mpIndividual } from "../../logic/mercadoPago";
+// import { mpIndividual } from "../../logic/mercadoPago";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import numeral from "numeral";
 import { useEffect, useState } from "react";
 import { SizeBox } from "../components/SizeBox";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SkeletonProductPage } from "@/components/SkeletonProductPage";
 import { UnorderList } from "@/components/UnorderLi";
 import { notify, notifyError } from "../hooks/toast";
 import { useCart } from "@/hooks/useCart";
 import { SizeTable } from "@/components/SizeTable";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function Product() {
   const [product, setProduct] = useState<Articulos>();
@@ -119,7 +127,7 @@ export function Product() {
             </div>
 
             {/* <!-- Product info --> */}
-            <div className=" lg:mx-12 lg:w-full mt-6 max-w-2xl grid grid-cols-1 lg:grid lg:gap-x-2">
+            <div className=" xl:mx-12 lg:w-full mt-6 max-w-2xl grid grid-cols-1 lg:grid lg:gap-x-2">
               <aside className="xl:w-4/5 xl:mr-4 ">
                 <div className="lg:col-span-2 lg:pr-8">
                   <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -140,49 +148,36 @@ export function Product() {
                       <h3 className="text-sm font-medium text-gray-900">
                         Talle
                       </h3>
-                      <Drawer>
-                        <DrawerTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
+                      <Dialog>
+                        <DialogTrigger className="text-sm font-medium text-yellow-900 hover:text-yellow-800">
                           Guía de talles
-                        </DrawerTrigger>
-                        <DrawerContent>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Talles y tamaños</DialogTitle>
+                            <DialogDescription>
+                              Las medidas son aproximadas y pueden variar.
+                            </DialogDescription>
+                          </DialogHeader>
                           <SizeTable />
-                          <DrawerFooter>
-                            <section className="grid grid-cols-2">
-                              <img
-                                className="mx-auto h-auto w-auto"
-                                src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/WAIST_CIRCUMFERENCE_FROM_MALE-1.png"
-                                alt="cintura"
-                              />
-                              <aside className="m-5">
-                                <p className="text-l font-semibold">
-                                  Contorno de la cintura
-                                </p>
-                                <p className="text-sm mt-2">
-                                  Juntá los pies. Después, medí la parte más
-                                  estrecha de tu cuerpo entre el pecho y la
-                                  cadera.
-                                </p>
-                              </aside>
-                            </section>
-                            <section className="grid grid-cols-2">
-                              <img
-                                className="mx-auto h-auto w-auto"
-                                src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/HIP_CIRCUMFERENCE_FROM_MALE-1.png"
-                                alt="cintura"
-                              />
-                              <aside className="m-5">
-                                <p className="text-l font-semibold">
-                                  Contorno de la cadera
-                                </p>
-                                <p className="text-sm mt-2">
-                                  Junta los pies. Después, medí la parte más
-                                  ancha de tu cadera.
-                                </p>
-                              </aside>
-                            </section>
-                          </DrawerFooter>
-                        </DrawerContent>
-                      </Drawer>
+                          <section className="grid grid-cols-2">
+                            <img
+                              className="mx-auto h-auto w-auto"
+                              src="https://http2.mlstatic.com/storage/charts-middleware/size-chart-middle/CHEST_CIRCUMFERENCE_FROM_MALE-1.png"
+                              alt="cintura"
+                            />
+                            <aside className="m-5">
+                              <p className="text-l font-semibold">
+                                Contorno del pecho
+                              </p>
+                              <p className="text-sm mt-2">
+                                Comenzando por la axila, rodeá con un centímetro
+                                la parte más ancha del tórax.
+                              </p>
+                            </aside>
+                          </section>
+                        </DialogContent>
+                      </Dialog>
                     </div>
 
                     <fieldset className="mt-4">
@@ -206,9 +201,12 @@ export function Product() {
                   </div>
                   <div className="grid gap-4 pt-10">
                     <Button
-                      onClick={() => mpIndividual(product?.id, selectedSize)}
+                      onClick={() => handleCartClick(product)}
+                      // mpIndividual(product?.id, selectedSize)}
                     >
-                      Comprar
+                      <Link className="h-full w-full" to={"/contactUS"}>
+                        Comprar
+                      </Link>
                     </Button>
                     <Button
                       variant={"secondary"}
@@ -220,26 +218,43 @@ export function Product() {
                 </div>
               </aside>
 
-              <div className="py-10 lg:col-span-2 lg:col-start-1  lg:w-2/3  lg:pb-16 l lg:pt-6">
+              <div className="py-10 xl:col-span-2 xl:col-start-1  xl:w-4/5  xl:pb-16 l xl:pt-6">
                 {/* <!-- Description and details --> */}
+
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>Descripción</AccordionTrigger>
+                    <AccordionContent>{product?.descripcion}</AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>Cuidados</AccordionTrigger>
+                    <AccordionContent>
+                      Lavar en agua fría. <br />
+                      A mano del lado del revés. <br />
+                      No usar lavandina. <br />
+                      No secar a máquina. <br />
+                      No planchar sobre la estampa.
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger>Destacado</AccordionTrigger>
+                    <AccordionContent>
+                      <UnorderList product={product?.detalles} />
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
                 <div>
                   <h3 className="sr-only">Description</h3>
 
                   <div className="space-y-6">
-                    <p className="text-base text-gray-900">
-                      {product?.descripcion}
-                    </p>
+                    <p className="text-base text-gray-900"></p>
                   </div>
                 </div>
 
                 <div className="mt-10">
-                  <h3 className="text-sm font-medium text-gray-900">
-                    Destacado
-                  </h3>
+                  <h3 className="text-sm font-medium text-gray-900"></h3>
 
-                  <div className="mt-4">
-                    <UnorderList product={product?.detalles} />
-                  </div>
+                  <div className="mt-4"></div>
                 </div>
               </div>
             </div>
