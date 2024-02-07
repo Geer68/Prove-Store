@@ -34,9 +34,9 @@ export function Cart() {
     }
   };
 
-  const handleMercadoPago = async () => {
-    mpVarios(cart);
-  };
+  // const handleMercadoPago = async () => {
+  //   mpVarios(cart);
+  // };
 
   const handleCuponClick = async () => {
     if (apliedCupon?.type !== 0) {
