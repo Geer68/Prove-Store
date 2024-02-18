@@ -1,6 +1,7 @@
-# Proyecto de Práctica con TypeScript, React, Tailwind CSS y Supabase
+# Prove Store
 
-Este proyecto de práctica tiene como objetivo desarrollar una aplicación web utilizando TypeScript, React, Tailwind CSS y Supabase. A continuación, se detallan los pasos básicos para comenzar con este proyecto.
+Prove Store es un proyecto orientado a la creación de un e-commerce completo, desarrollado utilizando TypeScript, React y Tailwind CSS en el lado del cliente, y Node.js con Supabase en el lado del servidor.
 
 ## Integración con Mercado Pago
-Próximamente, se integrará Mercado Pago en modo de prueba. Para esto, se utilizará una solución de backend que se implementará más adelante.
+
+Se ha implementado la integración con la pasarela de pagos de Mercado Pago para asegurar transacciones seguras y confiables. Ahora, los usuarios pueden realizar compras de forma segura a través de esta plataforma reconocida.
