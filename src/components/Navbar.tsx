@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import proveLogo from "../imgs/PROVElogoN.png";
 import eWW from "../imgs/enzoWW.jpg";
 import { Link } from "react-router-dom";
 import { CartContext } from "@/contexts/cart";
@@ -24,7 +23,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function NavigationBar() {
+export default function Navbar() {
   const [cantCart, setCantidad] = useState(0);
   const cartContext = useContext(CartContext);
   if (cartContext === null) {
@@ -63,7 +62,7 @@ export function NavigationBar() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <Link to="/">
-                    <img src={proveLogo} alt="" className="h-7 m-3" />{" "}
+                    <img src="/mendophone.png" alt="" className="h-16" />
                   </Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block items-center justify-center">
@@ -72,7 +71,7 @@ export function NavigationBar() {
                       <NavigationMenuList>
                         <NavigationMenuItem>
                           <NavigationMenuTrigger>
-                            World-Wide
+                            Condición
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -101,9 +100,7 @@ export function NavigationBar() {
                           </NavigationMenuContent>
                         </NavigationMenuItem>
                         <NavigationMenuItem>
-                          <NavigationMenuTrigger>
-                            Basic-Collection
-                          </NavigationMenuTrigger>
+                          <NavigationMenuTrigger>Marcas</NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                               <li className="row-span-3">
@@ -138,7 +135,7 @@ export function NavigationBar() {
                             to="/products/all"
                             className={navigationMenuTriggerStyle()}
                           >
-                            SHOP NOW
+                            Plan Canje
                           </Link>
                         </NavigationMenuItem>
                       </NavigationMenuList>

@@ -46,10 +46,8 @@ export function CarouselH() {
             ></path>
           </svg>
           <aside className="text-white ml-5">
-            <h3 className="text-lg">Envíos gratis</h3>
-            <p className="text-sm">
-              En compras superiores a {numeral(21000).format("$0,0")}
-            </p>
+            <h3 className="text-lg font-semibold">Plan Canje</h3>
+            <p className="text-sm">Dejá tu equipo y llevate uno nuevo</p>
           </aside>
         </CarouselItem>
         <CarouselItem className="flex items-center justify-center sm:basis-1/3">

@@ -4,12 +4,13 @@ import { Product } from "./pages/Product";
 import { Cart } from "./pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { NavigationBar } from "./components/NavigationBar";
+
 import { CartContext } from "@/contexts/cart";
 import { AllProducts } from "./pages/AllProducts";
 import { Page404 } from "./pages/Page404";
 import ContactSection from "./pages/ContactSection";
 import { Footer } from "./components/Footer";
+import Navbar from "./components/NavBar";
 type Route = {
   path: string;
   Component: React.ComponentType<any>;
@@ -55,7 +56,7 @@ function App() {
     <>
       <BrowserRouter>
         <Toaster />
-        <NavigationBar />
+        <Navbar />
         <Routes>
           <Route path="*" element={<Page404 />} />
           {routes.map((route) => (

@@ -37,15 +37,15 @@ export function HomePage() {
     <>
       <section className="grid gap-4  justify-items-center w-full relative">
         <img
-          src="https://provestoree.com/wp-content/uploads/2024/02/IMG_3318.jpg"
+          src="/hero.png"
           alt="Portada 1"
-          className=" w-full brightness-50 sm:aspect-video sm:object-cover sm:max-h-96"
+          className=" w-full  sm:aspect-video sm:object-cover sm:max-h-96"
         />
         <div className="absolute  grid top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white items-center justify-center">
-          <h1 className="text-7xl sm:text-7xl lg:text-9xl font-tinos mb-6">
+          {/* <h1 className="text-7xl sm:text-7xl lg:text-9xl font-tinos mb-6">
             PRØVE
-          </h1>
-          <h3 className="uppercase font-bold">PRØVE World-Wide drop</h3>
+          </h1> */}
+          {/* <h3 className="uppercase font-bold">PRØVE World-Wide drop</h3>
           <Link
             to="/products/all"
             className="mt-6 border-b sm:text-xl border-white w-24 sm:w-auto flex text-center justify-between items-center mx-auto"
@@ -66,7 +66,7 @@ export function HomePage() {
               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
               <path d="M13 7h-6l4 5l-4 5h6l4 -5z"></path>
             </svg>
-          </Link>
+          </Link> */}
         </div>
       </section>
       <CarouselH />
